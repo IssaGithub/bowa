@@ -1,0 +1,219 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Shop - Supreme">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8 text-center">Shop Supreme</h1>
+    
+    <!-- Filter Bar -->
+    <div class="flex flex-wrap justify-center gap-4 mb-12 text-sm">
+      <button class="border border-gray-600 px-4 py-2 hover:border-gray-400 transition-colors bg-gray-800">
+        All Items
+      </button>
+      <button class="border border-gray-600 px-4 py-2 hover:border-gray-400 transition-colors">
+        T-Shirts
+      </button>
+      <button class="border border-gray-600 px-4 py-2 hover:border-gray-400 transition-colors">
+        Hoodies
+      </button>
+      <button class="border border-gray-600 px-4 py-2 hover:border-gray-400 transition-colors">
+        Jackets
+      </button>
+      <button class="border border-gray-600 px-4 py-2 hover:border-gray-400 transition-colors">
+        Accessories
+      </button>
+      <button class="border border-gray-600 px-4 py-2 hover:border-gray-400 transition-colors">
+        Bags
+      </button>
+    </div>
+    
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      
+      <!-- Product 1 -->
+      <div class="group cursor-pointer">
+        <div class="bg-gray-800 aspect-square mb-4 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div class="text-center">
+            <div class="bg-red-600 px-3 py-1 mb-2 mx-auto w-fit">
+              <span class="text-white font-bold text-sm">Supreme</span>
+            </div>
+            <p class="text-gray-400 text-xs">Box Logo Tee</p>
+          </div>
+        </div>
+        <h3 class="font-semibold mb-1">Box Logo T-Shirt</h3>
+        <p class="text-gray-400 text-sm mb-2">Classic Red</p>
+        <p class="text-lg font-bold">€75</p>
+        <div class="flex gap-2 mt-2">
+          <span class="w-4 h-4 bg-red-600 rounded-full cursor-pointer border-2 border-white"></span>
+          <span class="w-4 h-4 bg-black rounded-full cursor-pointer border border-gray-600"></span>
+          <span class="w-4 h-4 bg-white rounded-full cursor-pointer border border-gray-600"></span>
+        </div>
+      </div>
+      
+      <!-- Product 2 -->
+      <div class="group cursor-pointer">
+        <div class="bg-gray-800 aspect-square mb-4 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div class="text-center">
+            <div class="bg-red-600 px-3 py-1 mb-2 mx-auto w-fit">
+              <span class="text-white font-bold text-sm">Supreme</span>
+            </div>
+            <p class="text-gray-400 text-xs">Hoodie</p>
+          </div>
+        </div>
+        <h3 class="font-semibold mb-1">Box Logo Hoodie</h3>
+        <p class="text-gray-400 text-sm mb-2">Heather Grey</p>
+        <p class="text-lg font-bold">€165</p>
+        <div class="flex gap-2 mt-2">
+          <span class="w-4 h-4 bg-gray-500 rounded-full cursor-pointer border-2 border-white"></span>
+          <span class="w-4 h-4 bg-black rounded-full cursor-pointer border border-gray-600"></span>
+          <span class="w-4 h-4 bg-red-600 rounded-full cursor-pointer border border-gray-600"></span>
+        </div>
+      </div>
+      
+      <!-- Product 3 -->
+      <div class="group cursor-pointer">
+        <div class="bg-gray-800 aspect-square mb-4 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div class="text-center">
+            <div class="bg-red-600 px-3 py-1 mb-2 mx-auto w-fit">
+              <span class="text-white font-bold text-sm">Supreme</span>
+            </div>
+            <p class="text-gray-400 text-xs">Jacket</p>
+          </div>
+        </div>
+        <h3 class="font-semibold mb-1">Supreme Bomber Jacket</h3>
+        <p class="text-gray-400 text-sm mb-2">Black</p>
+        <p class="text-lg font-bold">€285</p>
+        <div class="flex gap-2 mt-2">
+          <span class="w-4 h-4 bg-black rounded-full cursor-pointer border-2 border-white"></span>
+          <span class="w-4 h-4 bg-blue-800 rounded-full cursor-pointer border border-gray-600"></span>
+        </div>
+      </div>
+      
+      <!-- Product 4 -->
+      <div class="group cursor-pointer">
+        <div class="bg-gray-800 aspect-square mb-4 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div class="text-center">
+            <div class="bg-red-600 px-3 py-1 mb-2 mx-auto w-fit">
+              <span class="text-white font-bold text-sm">Supreme</span>
+            </div>
+            <p class="text-gray-400 text-xs">Beanie</p>
+          </div>
+        </div>
+        <h3 class="font-semibold mb-1">Logo Beanie</h3>
+        <p class="text-gray-400 text-sm mb-2">Red</p>
+        <p class="text-lg font-bold">€45</p>
+        <div class="flex gap-2 mt-2">
+          <span class="w-4 h-4 bg-red-600 rounded-full cursor-pointer border-2 border-white"></span>
+          <span class="w-4 h-4 bg-black rounded-full cursor-pointer border border-gray-600"></span>
+          <span class="w-4 h-4 bg-gray-500 rounded-full cursor-pointer border border-gray-600"></span>
+        </div>
+      </div>
+      
+      <!-- Product 5 -->
+      <div class="group cursor-pointer">
+        <div class="bg-gray-800 aspect-square mb-4 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div class="text-center">
+            <div class="bg-red-600 px-3 py-1 mb-2 mx-auto w-fit">
+              <span class="text-white font-bold text-sm">Supreme</span>
+            </div>
+            <p class="text-gray-400 text-xs">Backpack</p>
+          </div>
+        </div>
+        <h3 class="font-semibold mb-1">SS25 Backpack</h3>
+        <p class="text-gray-400 text-sm mb-2">Cordura Nylon</p>
+        <p class="text-lg font-bold">€125</p>
+        <div class="flex gap-2 mt-2">
+          <span class="w-4 h-4 bg-black rounded-full cursor-pointer border-2 border-white"></span>
+          <span class="w-4 h-4 bg-red-600 rounded-full cursor-pointer border border-gray-600"></span>
+        </div>
+      </div>
+      
+      <!-- Product 6 -->
+      <div class="group cursor-pointer">
+        <div class="bg-gray-800 aspect-square mb-4 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div class="text-center">
+            <div class="bg-red-600 px-3 py-1 mb-2 mx-auto w-fit">
+              <span class="text-white font-bold text-sm">Supreme</span>
+            </div>
+            <p class="text-gray-400 text-xs">Cap</p>
+          </div>
+        </div>
+        <h3 class="font-semibold mb-1">5-Panel Camp Cap</h3>
+        <p class="text-gray-400 text-sm mb-2">Canvas</p>
+        <p class="text-lg font-bold">€55</p>
+        <div class="flex gap-2 mt-2">
+          <span class="w-4 h-4 bg-black rounded-full cursor-pointer border-2 border-white"></span>
+          <span class="w-4 h-4 bg-white rounded-full cursor-pointer border border-gray-600"></span>
+          <span class="w-4 h-4 bg-red-600 rounded-full cursor-pointer border border-gray-600"></span>
+        </div>
+      </div>
+      
+      <!-- Product 7 -->
+      <div class="group cursor-pointer">
+        <div class="bg-gray-800 aspect-square mb-4 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div class="text-center">
+            <div class="bg-red-600 px-3 py-1 mb-2 mx-auto w-fit">
+              <span class="text-white font-bold text-sm">Supreme</span>
+            </div>
+            <p class="text-gray-400 text-xs">Long Sleeve</p>
+          </div>
+        </div>
+        <h3 class="font-semibold mb-1">Classic Logo L/S Tee</h3>
+        <p class="text-gray-400 text-sm mb-2">White</p>
+        <p class="text-lg font-bold">€85</p>
+        <div class="flex gap-2 mt-2">
+          <span class="w-4 h-4 bg-white rounded-full cursor-pointer border-2 border-white"></span>
+          <span class="w-4 h-4 bg-black rounded-full cursor-pointer border border-gray-600"></span>
+          <span class="w-4 h-4 bg-gray-500 rounded-full cursor-pointer border border-gray-600"></span>
+        </div>
+      </div>
+      
+      <!-- Product 8 -->
+      <div class="group cursor-pointer">
+        <div class="bg-gray-800 aspect-square mb-4 flex items-center justify-center border border-gray-700 group-hover:border-gray-500 transition-colors">
+          <div class="text-center">
+            <div class="bg-red-600 px-3 py-1 mb-2 mx-auto w-fit">
+              <span class="text-white font-bold text-sm">Supreme</span>
+            </div>
+            <p class="text-gray-400 text-xs">Deck</p>
+          </div>
+        </div>
+        <h3 class="font-semibold mb-1">Skateboard Deck</h3>
+        <p class="text-gray-400 text-sm mb-2">8.5" x 32"</p>
+        <p class="text-lg font-bold">€95</p>
+        <div class="flex gap-2 mt-2">
+          <span class="w-4 h-4 bg-red-600 rounded-full cursor-pointer border-2 border-white"></span>
+          <span class="w-4 h-4 bg-blue-600 rounded-full cursor-pointer border border-gray-600"></span>
+          <span class="w-4 h-4 bg-yellow-500 rounded-full cursor-pointer border border-gray-600"></span>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Load More -->
+    <div class="text-center mt-12">
+      <button class="border border-gray-600 px-8 py-3 hover:border-gray-400 transition-colors">
+        Load More Products
+      </button>
+    </div>
+    
+    <!-- Newsletter Signup -->
+    <div class="mt-16 border-t border-gray-700 pt-12">
+      <div class="text-center">
+        <h2 class="text-2xl font-bold mb-4">Stay Updated</h2>
+        <p class="text-gray-400 mb-6">Get notified about new drops and exclusive releases</p>
+        <div class="max-w-md mx-auto flex gap-4">
+          <input 
+            type="email" 
+            placeholder="Enter your email"
+            class="flex-1 bg-transparent border border-gray-600 px-4 py-2 focus:border-gray-400 focus:outline-none"
+          />
+          <button class="bg-red-600 px-6 py-2 hover:bg-red-700 transition-colors">
+            Subscribe
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout> 
