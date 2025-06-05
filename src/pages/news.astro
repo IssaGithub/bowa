@@ -1,94 +1,99 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Layout title="News - Supreme">
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-8 text-center">Latest News</h1>
-    
-    <div class="space-y-8">
-      <!-- Featured Article -->
-      <article class="border-b border-gray-700 pb-8">
-        <div class="mb-4">
-          <span class="text-xs text-gray-400">05/06/2025</span>
-        </div>
-        <h2 class="text-2xl font-bold mb-4">Spring/Summer 2025 Collection Preview</h2>
-        <p class="text-gray-300 mb-4">
-          Get an exclusive first look at our upcoming Spring/Summer 2025 collection featuring 
-          innovative designs and classic streetwear essentials. This season brings together 
-          bold graphics, premium materials, and timeless silhouettes.
-        </p>
-        <a href="/news/preview" class="text-red-500 hover:text-red-400 transition-colors">
-          Read Full Article →
-        </a>
-      </article>
+  <div class="container mx-auto px-4 py-16">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold mb-12 text-center">Latest News</h1>
       
-      <!-- Article 2 -->
-      <article class="border-b border-gray-700 pb-8">
-        <div class="mb-4">
-          <span class="text-xs text-gray-400">28/05/2025</span>
-        </div>
-        <h2 class="text-xl font-bold mb-4">New Store Opening in Tokyo</h2>
-        <p class="text-gray-300 mb-4">
-          We're excited to announce the opening of our newest flagship store in the heart of Tokyo. 
-          The store will feature exclusive Japan-only releases and unique collaborations.
-        </p>
-        <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
-          Read Full Article →
-        </a>
-      </article>
+      <div class="space-y-12">
+        <!-- Featured Article -->
+        <article class="border-b border-gray-700 pb-12">
+          <div class="mb-4">
+            <span class="text-xs text-gray-400">05/06/2025</span>
+          </div>
+          <h2 class="text-3xl font-bold mb-6">Spring/Summer 2025 Collection Preview</h2>
+          <p class="text-gray-300 mb-6 text-lg">
+            Get an exclusive first look at our upcoming Spring/Summer 2025 collection featuring 
+            innovative designs and classic streetwear essentials. This season brings together 
+            bold graphics, premium materials, and timeless silhouettes.
+          </p>
+          <a href="/news/preview" class="text-red-500 hover:text-red-400 transition-colors text-lg">
+            Read Full Article →
+          </a>
+        </article>
+        
+        <!-- Article 2 -->
+        <article class="border-b border-gray-700 pb-12">
+          <div class="mb-4">
+            <span class="text-xs text-gray-400">28/05/2025</span>
+          </div>
+          <h2 class="text-2xl font-bold mb-6">New Store Opening in Tokyo</h2>
+          <p class="text-gray-300 mb-6">
+            We're excited to announce the opening of our newest flagship store in the heart of Tokyo. 
+            The store will feature exclusive Japan-only releases and unique collaborations.
+          </p>
+          <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
+            Read Full Article →
+          </a>
+        </article>
+        
+        <!-- Article 3 -->
+        <article class="border-b border-gray-700 pb-12">
+          <div class="mb-4">
+            <span class="text-xs text-gray-400">22/05/2025</span>
+          </div>
+          <h2 class="text-2xl font-bold mb-6">Limited Edition Collaboration Drop</h2>
+          <p class="text-gray-300 mb-6">
+            Our highly anticipated collaboration with renowned artist brings together street art 
+            and high fashion in an exclusive limited edition capsule collection.
+          </p>
+          <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
+            Read Full Article →
+          </a>
+        </article>
+        
+        <!-- Article 4 -->
+        <article class="border-b border-gray-700 pb-12">
+          <div class="mb-4">
+            <span class="text-xs text-gray-400">15/05/2025</span>
+          </div>
+          <h2 class="text-2xl font-bold mb-6">Sustainability Initiative Launch</h2>
+          <p class="text-gray-300 mb-6">
+            We're committed to reducing our environmental impact through new sustainable 
+            manufacturing processes and eco-friendly materials across our product lines.
+          </p>
+          <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
+            Read Full Article →
+          </a>
+        </article>
+        
+        <!-- Article 5 -->
+        <article class="pb-12">
+          <div class="mb-4">
+            <span class="text-xs text-gray-400">10/05/2025</span>
+          </div>
+          <h2 class="text-2xl font-bold mb-6">Behind the Scenes: Design Process</h2>
+          <p class="text-gray-300 mb-6">
+            Take an inside look at our creative process and meet the designers behind our 
+            most iconic pieces. From concept to creation, discover what goes into each design.
+          </p>
+          <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
+            Read Full Article →
+          </a>
+        </article>
+      </div>
       
-      <!-- Article 3 -->
-      <article class="border-b border-gray-700 pb-8">
-        <div class="mb-4">
-          <span class="text-xs text-gray-400">22/05/2025</span>
-        </div>
-        <h2 class="text-xl font-bold mb-4">Limited Edition Collaboration Drop</h2>
-        <p class="text-gray-300 mb-4">
-          Our highly anticipated collaboration with renowned artist brings together street art 
-          and high fashion in an exclusive limited edition capsule collection.
-        </p>
-        <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
-          Read Full Article →
-        </a>
-      </article>
-      
-      <!-- Article 4 -->
-      <article class="border-b border-gray-700 pb-8">
-        <div class="mb-4">
-          <span class="text-xs text-gray-400">15/05/2025</span>
-        </div>
-        <h2 class="text-xl font-bold mb-4">Sustainability Initiative Launch</h2>
-        <p class="text-gray-300 mb-4">
-          We're committed to reducing our environmental impact through new sustainable 
-          manufacturing processes and eco-friendly materials across our product lines.
-        </p>
-        <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
-          Read Full Article →
-        </a>
-      </article>
-      
-      <!-- Article 5 -->
-      <article class="pb-8">
-        <div class="mb-4">
-          <span class="text-xs text-gray-400">10/05/2025</span>
-        </div>
-        <h2 class="text-xl font-bold mb-4">Behind the Scenes: Design Process</h2>
-        <p class="text-gray-300 mb-4">
-          Take an inside look at our creative process and meet the designers behind our 
-          most iconic pieces. From concept to creation, discover what goes into each design.
-        </p>
-        <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
-          Read Full Article →
-        </a>
-      </article>
-    </div>
-    
-    <!-- Load More Button -->
-    <div class="text-center mt-12">
-      <button class="border border-gray-600 px-6 py-2 hover:border-gray-400 transition-colors">
-        Load More Articles
-      </button>
+      <!-- Load More Button -->
+      <div class="text-center mt-16">
+        <button class="border border-gray-600 px-8 py-3 hover:border-gray-400 transition-colors text-lg">
+          Load More Articles
+        </button>
+      </div>
     </div>
   </div>
+  
+  <Footer />
 </Layout> 

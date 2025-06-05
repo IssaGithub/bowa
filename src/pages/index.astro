@@ -1,43 +1,48 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <Layout title="Supreme - Official Website">
-	<div class="text-center">
-		<h2 class="text-2xl font-bold mb-6">Welcome to Supreme</h2>
-		<p class="text-gray-300 mb-8">
-			Discover the latest collections, news, and exclusive drops.
-		</p>
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-			<div class="border border-gray-700 p-6 hover:border-gray-500 transition-colors">
-				<h3 class="text-lg font-semibold mb-3">Latest News</h3>
-				<p class="text-gray-400 text-sm mb-4">
-					Stay updated with our latest releases and announcements.
-				</p>
-				<a href="/news" class="text-red-500 hover:text-red-400 transition-colors">
-					Read More →
-				</a>
-			</div>
-			
-			<div class="border border-gray-700 p-6 hover:border-gray-500 transition-colors">
-				<h3 class="text-lg font-semibold mb-3">Shop Collection</h3>
-				<p class="text-gray-400 text-sm mb-4">
-					Browse our latest apparel and accessories.
-				</p>
-				<a href="/shop" class="text-red-500 hover:text-red-400 transition-colors">
-					Shop Now →
-				</a>
-			</div>
-			
-			<div class="border border-gray-700 p-6 hover:border-gray-500 transition-colors">
-				<h3 class="text-lg font-semibold mb-3">About Us</h3>
-				<p class="text-gray-400 text-sm mb-4">
-					Learn more about our story and mission.
-				</p>
-				<a href="/about" class="text-red-500 hover:text-red-400 transition-colors">
-					Learn More →
-				</a>
+	<div class="container mx-auto px-4 py-16">
+		<div class="text-center">
+			<h2 class="text-4xl font-bold mb-6">Welcome to Supreme</h2>
+			<p class="text-gray-300 mb-12 text-lg">
+				Discover the latest collections, news, and exclusive drops.
+			</p>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+				<div class="border border-gray-700 p-8 hover:border-gray-500 transition-colors">
+					<h3 class="text-xl font-semibold mb-4">Latest News</h3>
+					<p class="text-gray-400 mb-6">
+						Stay updated with our latest releases and announcements.
+					</p>
+					<a href="/news" class="text-red-500 hover:text-red-400 transition-colors">
+						Read More →
+					</a>
+				</div>
+				
+				<div class="border border-gray-700 p-8 hover:border-gray-500 transition-colors">
+					<h3 class="text-xl font-semibold mb-4">Shop Collection</h3>
+					<p class="text-gray-400 mb-6">
+						Browse our latest apparel and accessories.
+					</p>
+					<a href="/shop" class="text-red-500 hover:text-red-400 transition-colors">
+						Shop Now →
+					</a>
+				</div>
+				
+				<div class="border border-gray-700 p-8 hover:border-gray-500 transition-colors">
+					<h3 class="text-xl font-semibold mb-4">About Us</h3>
+					<p class="text-gray-400 mb-6">
+						Learn more about our story and mission.
+					</p>
+					<a href="/about" class="text-red-500 hover:text-red-400 transition-colors">
+						Learn More →
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
+	
+	<Footer />
 </Layout>
