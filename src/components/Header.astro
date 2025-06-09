@@ -1,0 +1,394 @@
+---
+// Header component with login functionality for Medusa.js backend
+---
+
+<header class="border-b border-gray-700">
+  <div class="container mx-auto px-4 py-4">
+    <div class="flex justify-between items-center">
+      <!-- BOWAVE Logo -->
+      <a href="/" class="bg-red-600 px-4 py-2 hover:bg-red-700 transition-colors">
+        <h1 class="text-white font-bold text-xl tracking-wider">BOWAVE</h1>
+      </a>
+      
+      <!-- Navigation -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="/news" class="hover:text-gray-300 transition-colors">Neuigkeiten</a>
+        <a href="/shop" class="hover:text-gray-300 transition-colors">Shop</a>
+        <a href="/about" class="hover:text-gray-300 transition-colors">Über uns</a>
+      </nav>
+      
+      <!-- User Actions -->
+      <div class="flex items-center space-x-4">
+        <!-- Login/User Menu -->
+        <div id="userSection">
+          <!-- Not logged in state -->
+          <div id="loginSection" class="flex items-center space-x-4">
+            <button id="loginBtn" class="text-sm hover:text-gray-300 transition-colors">
+              Anmelden
+            </button>
+            <button id="registerBtn" class="text-sm border border-gray-600 px-4 py-2 hover:border-gray-400 transition-colors">
+              Registrieren
+            </button>
+          </div>
+          
+          <!-- Logged in state (hidden by default) -->
+          <div id="userMenu" class="hidden flex items-center space-x-4">
+            <span id="userName" class="text-sm text-gray-300"></span>
+            <button id="logoutBtn" class="text-sm hover:text-gray-300 transition-colors">
+              Abmelden
+            </button>
+          </div>
+        </div>
+        
+        <!-- Cart Icon -->
+        <button class="relative hover:text-gray-300 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h2.9M19 10v11a2 2 0 01-2 2H7a2 2 0 01-2-2V10"/>
+          </svg>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Login Modal -->
+<div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-gray-900 border border-gray-700 p-8 max-w-md w-full">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Anmelden</h2>
+        <button id="closeLoginModal" class="text-gray-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      
+      <form id="loginForm" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium mb-2">E-Mail</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            required
+            class="w-full bg-transparent border border-gray-600 px-4 py-3 focus:border-gray-400 focus:outline-none"
+            placeholder="ihre.email@example.com"
+          />
+        </div>
+        
+        <div>
+          <label for="password" class="block text-sm font-medium mb-2">Passwort</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password"
+            required
+            class="w-full bg-transparent border border-gray-600 px-4 py-3 focus:border-gray-400 focus:outline-none"
+            placeholder="••••••••"
+          />
+        </div>
+        
+        <div id="loginError" class="hidden text-red-500 text-sm"></div>
+        
+        <button 
+          type="submit" 
+          id="loginSubmit"
+          class="w-full bg-red-600 py-3 hover:bg-red-700 transition-colors font-medium"
+        >
+          Anmelden
+        </button>
+      </form>
+      
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-400">
+          Noch kein Konto? 
+          <button id="switchToRegister" class="text-red-500 hover:text-red-400">
+            Registrieren Sie sich hier
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-gray-900 border border-gray-700 p-8 max-w-md w-full">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Registrieren</h2>
+        <button id="closeRegisterModal" class="text-gray-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      
+      <form id="registerForm" class="space-y-6">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="firstName" class="block text-sm font-medium mb-2">Vorname</label>
+            <input 
+              type="text" 
+              id="firstName" 
+              name="first_name"
+              required
+              class="w-full bg-transparent border border-gray-600 px-4 py-3 focus:border-gray-400 focus:outline-none"
+              placeholder="Max"
+            />
+          </div>
+          <div>
+            <label for="lastName" class="block text-sm font-medium mb-2">Nachname</label>
+            <input 
+              type="text" 
+              id="lastName" 
+              name="last_name"
+              required
+              class="w-full bg-transparent border border-gray-600 px-4 py-3 focus:border-gray-400 focus:outline-none"
+              placeholder="Mustermann"
+            />
+          </div>
+        </div>
+        
+        <div>
+          <label for="registerEmail" class="block text-sm font-medium mb-2">E-Mail</label>
+          <input 
+            type="email" 
+            id="registerEmail" 
+            name="email"
+            required
+            class="w-full bg-transparent border border-gray-600 px-4 py-3 focus:border-gray-400 focus:outline-none"
+            placeholder="ihre.email@example.com"
+          />
+        </div>
+        
+        <div>
+          <label for="registerPassword" class="block text-sm font-medium mb-2">Passwort</label>
+          <input 
+            type="password" 
+            id="registerPassword" 
+            name="password"
+            required
+            class="w-full bg-transparent border border-gray-600 px-4 py-3 focus:border-gray-400 focus:outline-none"
+            placeholder="••••••••"
+          />
+        </div>
+        
+        <div id="registerError" class="hidden text-red-500 text-sm"></div>
+        
+        <button 
+          type="submit" 
+          id="registerSubmit"
+          class="w-full bg-red-600 py-3 hover:bg-red-700 transition-colors font-medium"
+        >
+          Registrieren
+        </button>
+      </form>
+      
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-400">
+          Bereits ein Konto? 
+          <button id="switchToLogin" class="text-red-500 hover:text-red-400">
+            Hier anmelden
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Medusa.js API configuration
+  const MEDUSA_API_URL = 'http://localhost:9000';
+  
+  // DOM elements
+  const loginBtn = document.getElementById('loginBtn');
+  const registerBtn = document.getElementById('registerBtn');
+  const loginModal = document.getElementById('loginModal');
+  const registerModal = document.getElementById('registerModal');
+  const closeLoginModal = document.getElementById('closeLoginModal');
+  const closeRegisterModal = document.getElementById('closeRegisterModal');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const switchToRegister = document.getElementById('switchToRegister');
+  const switchToLogin = document.getElementById('switchToLogin');
+  const loginSection = document.getElementById('loginSection');
+  const userMenu = document.getElementById('userMenu');
+  const userName = document.getElementById('userName');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const loginError = document.getElementById('loginError');
+  const registerError = document.getElementById('registerError');
+  
+  // Event listeners
+  loginBtn?.addEventListener('click', () => openModal(loginModal));
+  registerBtn?.addEventListener('click', () => openModal(registerModal));
+  closeLoginModal?.addEventListener('click', () => closeModal(loginModal));
+  closeRegisterModal?.addEventListener('click', () => closeModal(registerModal));
+  switchToRegister?.addEventListener('click', () => switchModals(loginModal, registerModal));
+  switchToLogin?.addEventListener('click', () => switchModals(registerModal, loginModal));
+  logoutBtn?.addEventListener('click', logout);
+  
+  // Form submissions
+  loginForm?.addEventListener('submit', handleLogin);
+  registerForm?.addEventListener('submit', handleRegister);
+  
+  // Close modals on background click
+  [loginModal, registerModal].forEach(modal => {
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal(modal);
+    });
+  });
+  
+  // Utility functions
+  function openModal(modal) {
+    modal?.classList.remove('hidden');
+  }
+  
+  function closeModal(modal) {
+    modal?.classList.add('hidden');
+    clearErrors();
+  }
+  
+  function switchModals(from, to) {
+    closeModal(from);
+    openModal(to);
+  }
+  
+  function clearErrors() {
+    loginError?.classList.add('hidden');
+    registerError?.classList.add('hidden');
+  }
+  
+  function showError(element, message) {
+    if (element) {
+      element.textContent = message;
+      element.classList.remove('hidden');
+    }
+  }
+  
+  // Authentication functions
+  async function handleLogin(e) {
+    e.preventDefault();
+    clearErrors();
+    
+    const formData = new FormData(e.target);
+    const email = formData.get('email');
+    const password = formData.get('password');
+    
+    try {
+      const response = await fetch(`${MEDUSA_API_URL}/store/auth`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include'
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Store customer data
+        localStorage.setItem('customer', JSON.stringify(data.customer));
+        updateUIForLoggedInUser(data.customer);
+        closeModal(loginModal);
+      } else {
+        showError(loginError, data.message || 'Anmeldung fehlgeschlagen');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      showError(loginError, 'Verbindungsfehler. Versuchen Sie es später erneut.');
+    }
+  }
+  
+  async function handleRegister(e) {
+    e.preventDefault();
+    clearErrors();
+    
+    const formData = new FormData(e.target);
+    const customerData = {
+      first_name: formData.get('first_name'),
+      last_name: formData.get('last_name'),
+      email: formData.get('email'),
+      password: formData.get('password')
+    };
+    
+    try {
+      const response = await fetch(`${MEDUSA_API_URL}/store/customers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(customerData),
+        credentials: 'include'
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Auto-login after successful registration
+        await handleLogin(new Event('submit', { target: {
+          elements: {
+            email: { value: customerData.email },
+            password: { value: customerData.password }
+          }
+        }}));
+        closeModal(registerModal);
+      } else {
+        showError(registerError, data.message || 'Registrierung fehlgeschlagen');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      showError(registerError, 'Verbindungsfehler. Versuchen Sie es später erneut.');
+    }
+  }
+  
+  async function logout() {
+    try {
+      await fetch(`${MEDUSA_API_URL}/store/auth`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      
+      localStorage.removeItem('customer');
+      updateUIForLoggedOutUser();
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Still clear local state even if request fails
+      localStorage.removeItem('customer');
+      updateUIForLoggedOutUser();
+    }
+  }
+  
+  function updateUIForLoggedInUser(customer) {
+    loginSection?.classList.add('hidden');
+    userMenu?.classList.remove('hidden');
+    if (userName) {
+      userName.textContent = `${customer.first_name} ${customer.last_name}`;
+    }
+  }
+  
+  function updateUIForLoggedOutUser() {
+    loginSection?.classList.remove('hidden');
+    userMenu?.classList.add('hidden');
+  }
+  
+  // Check authentication status on page load
+  function checkAuthStatus() {
+    const customer = localStorage.getItem('customer');
+    if (customer) {
+      try {
+        const parsedCustomer = JSON.parse(customer);
+        updateUIForLoggedInUser(parsedCustomer);
+      } catch (error) {
+        console.error('Error parsing customer data:', error);
+        localStorage.removeItem('customer');
+      }
+    }
+  }
+  
+  // Initialize auth status
+  document.addEventListener('DOMContentLoaded', checkAuthStatus);
+</script> 

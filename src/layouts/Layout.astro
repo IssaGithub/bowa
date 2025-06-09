@@ -1,4 +1,6 @@
 ---
+import Header from '../components/Header.astro';
+
 export interface Props {
   title: string;
 }
@@ -18,6 +20,9 @@ const { title } = Astro.props;
     <link rel="stylesheet" href="/src/styles/global.css" />
   </head>
   <body class="bg-black text-white min-h-screen">
+    <!-- Header with navigation and login -->
+    <Header />
+    
     <!-- Cookie-Hinweis -->
     <div class="text-xs text-gray-400 py-4 text-center">
       Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Durch die weitere Nutzung stimmen Sie der Verwendung von Cookies zu. 
