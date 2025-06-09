@@ -7,7 +7,7 @@ const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
@@ -18,14 +18,14 @@ const { title } = Astro.props;
     <link rel="stylesheet" href="/src/styles/global.css" />
   </head>
   <body class="bg-black text-white min-h-screen">
-    <!-- Cookie Notice -->
+    <!-- Cookie-Hinweis -->
     <div class="text-xs text-gray-400 py-4 text-center">
-      This site uses cookies to improve your experience. By continuing to browse, you agree to the use of cookies. 
-      <a href="#" class="underline">Read the Privacy Policy</a> here.
+      Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Durch die weitere Nutzung stimmen Sie der Verwendung von Cookies zu. 
+      <a href="#" class="underline">Lesen Sie die Datenschutzrichtlinie</a> hier.
       <button class="ml-4 text-white hover:text-gray-300">×</button>
     </div>
     
-    <!-- Main Content -->
+    <!-- Hauptinhalt -->
     <main>
       <slot />
     </main>
