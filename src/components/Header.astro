@@ -202,7 +202,16 @@
 <script>
   // Medusa.js API configuration with proxy support
   const isDevelopment = import.meta.env.DEV;
-  const MEDUSA_API_URL = isDevelopment ? '/api' : 'http://localhost:9000';
+  const MEDUSA_API_URL = isDevelopment ? '/api' : 'http://localhost:9000'; // Use proxy in development
+  
+  // Medusa.js publishable API key - replace with your actual key
+  const MEDUSA_PUBLISHABLE_KEY = 'pk_e677a087b82c8104521e193f53d7f8c34362e61dea419fb1fd16a27ca1e2f1ed'; // Replace with your actual publishable key
+  
+  // Common headers for all API requests
+  const getApiHeaders = () => ({
+    'Content-Type': 'application/json',
+    'x-publishable-api-key': MEDUSA_PUBLISHABLE_KEY,
+  });
   
   // DOM elements
   const loginBtn = document.getElementById('loginBtn');
@@ -243,16 +252,16 @@
   });
   
   // Utility functions
-  function openModal(modal) {
+  function openModal(modal: HTMLElement | null) {
     modal?.classList.remove('hidden');
   }
   
-  function closeModal(modal) {
+  function closeModal(modal: HTMLElement | null) {
     modal?.classList.add('hidden');
     clearErrors();
   }
   
-  function switchModals(from, to) {
+  function switchModals(from: HTMLElement | null, to: HTMLElement | null) {
     closeModal(from);
     openModal(to);
   }
@@ -262,7 +271,7 @@
     registerError?.classList.add('hidden');
   }
   
-  function showError(element, message) {
+  function showError(element: HTMLElement | null, message: string) {
     if (element) {
       element.textContent = message;
       element.classList.remove('hidden');
@@ -270,20 +279,18 @@
   }
   
   // Authentication functions
-  async function handleLogin(e) {
+  async function handleLogin(e: Event) {
     e.preventDefault();
     clearErrors();
     
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get('email');
     const password = formData.get('password');
     
     try {
       const response = await fetch(`${MEDUSA_API_URL}/store/auth`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getApiHeaders(),
         body: JSON.stringify({ email, password }),
         credentials: isDevelopment ? 'same-origin' : 'include'
       });
@@ -304,11 +311,11 @@
     }
   }
   
-  async function handleRegister(e) {
+  async function handleRegister(e: Event) {
     e.preventDefault();
     clearErrors();
     
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target as HTMLFormElement);
     const customerData = {
       first_name: formData.get('first_name'),
       last_name: formData.get('last_name'),
@@ -319,9 +326,7 @@
     try {
       const response = await fetch(`${MEDUSA_API_URL}/store/customers`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getApiHeaders(),
         body: JSON.stringify(customerData),
         credentials: isDevelopment ? 'same-origin' : 'include'
       });
@@ -333,9 +338,7 @@
         try {
           const loginResponse = await fetch(`${MEDUSA_API_URL}/store/auth`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: getApiHeaders(),
             body: JSON.stringify({ 
               email: customerData.email, 
               password: customerData.password 
@@ -367,6 +370,7 @@
     try {
       await fetch(`${MEDUSA_API_URL}/store/auth`, {
         method: 'DELETE',
+        headers: getApiHeaders(),
         credentials: isDevelopment ? 'same-origin' : 'include'
       });
       
@@ -380,7 +384,7 @@
     }
   }
   
-  function updateUIForLoggedInUser(customer) {
+  function updateUIForLoggedInUser(customer: any) {
     loginSection?.classList.add('hidden');
     userMenu?.classList.remove('hidden');
     if (userName) {
