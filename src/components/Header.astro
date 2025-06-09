@@ -200,8 +200,9 @@
 </div>
 
 <script>
-  // Medusa.js API configuration
-  const MEDUSA_API_URL = 'http://localhost:9000';
+  // Medusa.js API configuration with proxy support
+  const isDevelopment = import.meta.env.DEV;
+  const MEDUSA_API_URL = isDevelopment ? '/api' : 'http://localhost:9000';
   
   // DOM elements
   const loginBtn = document.getElementById('loginBtn');
@@ -284,7 +285,7 @@
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include'
+        credentials: isDevelopment ? 'same-origin' : 'include'
       });
       
       const data = await response.json();
@@ -322,19 +323,36 @@
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(customerData),
-        credentials: 'include'
+        credentials: isDevelopment ? 'same-origin' : 'include'
       });
       
       const data = await response.json();
       
       if (response.ok) {
         // Auto-login after successful registration
-        await handleLogin(new Event('submit', { target: {
-          elements: {
-            email: { value: customerData.email },
-            password: { value: customerData.password }
+        try {
+          const loginResponse = await fetch(`${MEDUSA_API_URL}/store/auth`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              email: customerData.email, 
+              password: customerData.password 
+            }),
+            credentials: isDevelopment ? 'same-origin' : 'include'
+          });
+          
+          const loginData = await loginResponse.json();
+          
+          if (loginResponse.ok) {
+            localStorage.setItem('customer', JSON.stringify(loginData.customer));
+            updateUIForLoggedInUser(loginData.customer);
           }
-        }}));
+        } catch (loginError) {
+          console.error('Auto-login error:', loginError);
+        }
+        
         closeModal(registerModal);
       } else {
         showError(registerError, data.message || 'Registrierung fehlgeschlagen');
@@ -349,7 +367,7 @@
     try {
       await fetch(`${MEDUSA_API_URL}/store/auth`, {
         method: 'DELETE',
-        credentials: 'include'
+        credentials: isDevelopment ? 'same-origin' : 'include'
       });
       
       localStorage.removeItem('customer');
