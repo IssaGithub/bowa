@@ -200,18 +200,8 @@
 </div>
 
 <script>
-  // Medusa.js API configuration with proxy support
-  const isDevelopment = import.meta.env.DEV;
-  const MEDUSA_API_URL = isDevelopment ? '/api' : 'http://localhost:9000'; // Use proxy in development
-  
-  // Medusa.js publishable API key - replace with your actual key
-  const MEDUSA_PUBLISHABLE_KEY = 'pk_e677a087b82c8104521e193f53d7f8c34362e61dea419fb1fd16a27ca1e2f1ed'; // Replace with your actual publishable key
-  
-  // Common headers for all API requests
-  const getApiHeaders = () => ({
-    'Content-Type': 'application/json',
-    'x-publishable-api-key': MEDUSA_PUBLISHABLE_KEY,
-  });
+  // API URLs using Astro API endpoints
+  const API_BASE_URL = '/api/auth';
   
   // DOM elements
   const loginBtn = document.getElementById('loginBtn');
@@ -288,11 +278,13 @@
     const password = formData.get('password');
     
     try {
-      const response = await fetch(`${MEDUSA_API_URL}/store/auth`, {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
-        headers: getApiHeaders(),
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ email, password }),
-        credentials: isDevelopment ? 'same-origin' : 'include'
+        credentials: 'include'
       });
       
       const data = await response.json();
@@ -324,38 +316,24 @@
     };
     
     try {
-      const response = await fetch(`${MEDUSA_API_URL}/store/customers`, {
+      const response = await fetch(`${API_BASE_URL}/register`, {
         method: 'POST',
-        headers: getApiHeaders(),
+        headers: {
+          'Content-Type': 'application/json',
+          'publishableKey':'pk_e677a087b82c8104521e193f53d7f8c34362e61dea419fb1fd16a27ca1e2f1ed' 
+        },
         body: JSON.stringify(customerData),
-        credentials: isDevelopment ? 'same-origin' : 'include'
+        credentials: 'include'
       });
       
       const data = await response.json();
       
       if (response.ok) {
-        // Auto-login after successful registration
-        try {
-          const loginResponse = await fetch(`${MEDUSA_API_URL}/store/auth`, {
-            method: 'POST',
-            headers: getApiHeaders(),
-            body: JSON.stringify({ 
-              email: customerData.email, 
-              password: customerData.password 
-            }),
-            credentials: isDevelopment ? 'same-origin' : 'include'
-          });
-          
-          const loginData = await loginResponse.json();
-          
-          if (loginResponse.ok) {
-            localStorage.setItem('customer', JSON.stringify(loginData.customer));
-            updateUIForLoggedInUser(loginData.customer);
-          }
-        } catch (loginError) {
-          console.error('Auto-login error:', loginError);
+        // Store customer data if auto-login was successful
+        if (data.customer) {
+          localStorage.setItem('customer', JSON.stringify(data.customer));
+          updateUIForLoggedInUser(data.customer);
         }
-        
         closeModal(registerModal);
       } else {
         showError(registerError, data.message || 'Registrierung fehlgeschlagen');
@@ -368,10 +346,9 @@
   
   async function logout() {
     try {
-      await fetch(`${MEDUSA_API_URL}/store/auth`, {
+      await fetch(`${API_BASE_URL}/logout`, {
         method: 'DELETE',
-        headers: getApiHeaders(),
-        credentials: isDevelopment ? 'same-origin' : 'include'
+        credentials: 'include'
       });
       
       localStorage.removeItem('customer');
