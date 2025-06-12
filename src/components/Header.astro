@@ -200,6 +200,14 @@
 </div>
 
 <script>
+  import Medusa from "@medusajs/js-sdk"
+  
+  // Initialize the SDK instance
+  const sdk = new Medusa({
+    baseUrl: "http://localhost:9000",
+    debug: false
+  });
+  
   // API URLs using Astro API endpoints
   const API_BASE_URL = '/api/auth';
   
@@ -309,38 +317,39 @@
     
     const formData = new FormData(e.target as HTMLFormElement);
     const customerData = {
-      first_name: formData.get('first_name'),
-      last_name: formData.get('last_name'),
-      email: formData.get('email'),
-      password: formData.get('password')
+      first_name: formData.get('first_name') as string,
+      last_name: formData.get('last_name') as string,
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
     };
     
     try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'publishableKey':'pk_e677a087b82c8104521e193f53d7f8c34362e61dea419fb1fd16a27ca1e2f1ed' 
-        },
-        body: JSON.stringify(customerData),
-        credentials: 'include'
+      // Step 1: Register to get a token
+      const token = await sdk.auth.register("customer", "emailpass", {
+        email: customerData.email,
+        password: customerData.password
       });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        // Store customer data if auto-login was successful
-        if (data.customer) {
-          localStorage.setItem('customer', JSON.stringify(data.customer));
-          updateUIForLoggedInUser(data.customer);
+
+      // Step 2: Create the customer using the token
+      const { customer } = await sdk.store.customer.create(
+        {
+          email: customerData.email,
+          first_name: customerData.first_name,
+          last_name: customerData.last_name
+        },
+        {},
+        {
+          Authorization: `Bearer ${token}`
         }
-        closeModal(registerModal);
-      } else {
-        showError(registerError, data.message || 'Registrierung fehlgeschlagen');
-      }
+      );
+      
+      // Store customer data and update UI
+      localStorage.setItem('customer', JSON.stringify(customer));
+      updateUIForLoggedInUser(customer);
+      closeModal(registerModal);
     } catch (error) {
       console.error('Registration error:', error);
-      showError(registerError, 'Verbindungsfehler. Versuchen Sie es später erneut.');
+      showError(registerError, 'Registrierung fehlgeschlagen. Versuchen Sie es später erneut.');
     }
   }
   
