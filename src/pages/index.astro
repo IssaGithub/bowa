@@ -1,53 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import VideoHeroDemo from '../components/VideoHeroDemo.astro';
-import Footer from '../components/Footer.astro';
+import VideoHeroWithMenu from '../components/VideoHeroWithMenu.astro';
 ---
 
 <Layout title="BOWAVE - Offizielle Website">
-	<!-- Demo Hero Slider -->
-	<VideoHeroDemo />
-	
-	<!-- Main Content Section -->
-	<div class="container mx-auto px-4 py-16">
-		<div class="text-center">
-			<h2 class="text-4xl font-bold mb-6">Willkommen bei BOWAVE</h2>
-			<p class="text-gray-300 mb-12 text-lg">
-				Entdecken Sie die neuesten Kollektionen, Neuigkeiten und exklusive Drops.
-			</p>
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-				<div class="border border-gray-700 p-8 hover:border-gray-500 transition-colors">
-					<h3 class="text-xl font-semibold mb-4">Aktuelle Neuigkeiten</h3>
-					<p class="text-gray-400 mb-6">
-						Bleiben Sie über unsere neuesten Releases und Ankündigungen auf dem Laufenden.
-					</p>
-					<a href="/news" class="text-red-500 hover:text-red-400 transition-colors">
-						Mehr lesen →
-					</a>
-				</div>
-				
-				<div class="border border-gray-700 p-8 hover:border-gray-500 transition-colors">
-					<h3 class="text-xl font-semibold mb-4">Shop Kollektion</h3>
-					<p class="text-gray-400 mb-6">
-						Durchstöbern Sie unsere neueste Bekleidung und Accessoires.
-					</p>
-					<a href="/shop" class="text-red-500 hover:text-red-400 transition-colors">
-						Jetzt shoppen →
-					</a>
-				</div>
-				
-				<div class="border border-gray-700 p-8 hover:border-gray-500 transition-colors">
-					<h3 class="text-xl font-semibold mb-4">Über uns</h3>
-					<p class="text-gray-400 mb-6">
-						Erfahren Sie mehr über unsere Geschichte und Mission.
-					</p>
-					<a href="/about" class="text-red-500 hover:text-red-400 transition-colors">
-						Mehr erfahren →
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<Footer />
+	<!-- Video Hero with Menu Overlay -->
+	<VideoHeroWithMenu />
 </Layout>

@@ -1,0 +1,220 @@
+---
+// Video Hero with Menu Overlay Component for BOWAVE
+import Footer from './Footer.astro';
+
+const videos = [
+  {
+    background: ' linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);',
+    title: 'BOWAVE Summer Collection',
+    subtitle: 'Neue Streetwear für den Sommer 2025',
+    cta: 'Jetzt entdecken',
+    overlay: 'bg-red-900 bg-opacity-20'
+  },
+  {
+    background: ' linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);',
+    title: 'Limited Edition Drop',
+    subtitle: 'Exklusive Pieces für echte Streetwear-Fans',
+    cta: 'Shop Collection',
+    overlay: 'bg-gray-900 bg-opacity-30'
+  }
+];
+---
+
+<section class="relative h-screen overflow-hidden bg-black">
+  <!-- Video Slider Container - Background -->
+  <div id="videoSlider" class="relative w-full h-full z-10">
+    {videos.map((video, index) => (
+      <div 
+        class={`video-slide absolute inset-0 transition-opacity duration-1000 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+        data-slide={index}
+        style={`background: ${video.background};`}
+      >
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse" style="background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+        </div>
+        
+        <!-- Slide Overlay -->
+        <div class={`absolute inset-0 ${video.overlay}`}></div>
+      </div>
+    ))}
+  </div>
+  
+  <!-- Navigation Controls (lower z-index than menu) -->
+  <div class="absolute inset-0 z-20 pointer-events-none">
+    <!-- Navigation Dots -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 pointer-events-auto">
+      {videos.map((_, index) => (
+        <button
+          class={`w-3 h-3 rounded-full transition-all duration-300 ${index === 0 ? 'bg-red-600' : 'bg-white bg-opacity-50'} hover:bg-red-500`}
+          data-slide-to={index}
+          aria-label={`Go to slide ${index + 1}`}
+        ></button>
+      ))}
+    </div>
+    
+    <!-- Navigation Arrows -->
+    <button 
+      id="prevSlide"
+      class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition-all duration-300 pointer-events-auto"
+      aria-label="Previous slide"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    
+    <button 
+      id="nextSlide"
+      class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition-all duration-300 pointer-events-auto"
+      aria-label="Next slide"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Menu Overlay (highest z-index) -->
+  <Footer />
+</section>
+
+<script>
+  // Background Slider Functionality
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.video-slide');
+  const dots = document.querySelectorAll('[data-slide-to]');
+  const totalSlides = slides.length;
+  let slideInterval: NodeJS.Timeout;
+  
+  // Initialize slider
+  function initSlider() {
+    // Auto-advance slides every 8 seconds
+    slideInterval = setInterval(() => {
+      nextSlide();
+    }, 8000);
+  }
+  
+  // Show specific slide
+  function showSlide(index: number) {
+    // Hide all slides
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('opacity-100', i === index);
+      slide.classList.toggle('opacity-0', i !== index);
+    });
+    
+    // Update dots
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('bg-red-600', i === index);
+      dot.classList.toggle('bg-white', i !== index);
+      dot.classList.toggle('bg-opacity-50', i !== index);
+    });
+    
+    currentSlide = index;
+  }
+  
+  // Next slide
+  function nextSlide() {
+    const next = (currentSlide + 1) % totalSlides;
+    showSlide(next);
+  }
+  
+  // Previous slide
+  function prevSlide() {
+    const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+    showSlide(prev);
+  }
+  
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    // Navigation arrows
+    document.getElementById('nextSlide')?.addEventListener('click', () => {
+      nextSlide();
+      // Reset auto-advance timer
+      clearInterval(slideInterval);
+      initSlider();
+    });
+    
+    document.getElementById('prevSlide')?.addEventListener('click', () => {
+      prevSlide();
+      // Reset auto-advance timer
+      clearInterval(slideInterval);
+      initSlider();
+    });
+    
+    // Dots navigation
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        showSlide(index);
+        // Reset auto-advance timer
+        clearInterval(slideInterval);
+        initSlider();
+      });
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    });
+    
+    // Pause on hover of slider area (not menu)
+    const slider = document.getElementById('videoSlider');
+    slider?.addEventListener('mouseenter', () => {
+      clearInterval(slideInterval);
+    });
+    
+    slider?.addEventListener('mouseleave', () => {
+      initSlider();
+    });
+    
+    // Initialize
+    initSlider();
+  });
+</script>
+
+<style>
+  /* Custom styles for video slider */
+  .video-slide {
+    z-index: 1;
+  }
+  
+  .video-slide video {
+    filter: brightness(0.7);
+  }
+  
+  /* Smooth transitions */
+  .video-slide {
+    transition: opacity 1s ease-in-out;
+  }
+  
+  /* Ensure menu overlay stays on top */
+  footer {
+    position: relative;
+    z-index: 30;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .video-slide h2 {
+      font-size: 2rem;
+    }
+    
+    .video-slide p {
+      font-size: 1.25rem;
+    }
+    
+    .video-slide button {
+      font-size: 1rem;
+      padding: 0.75rem 1.5rem;
+    }
+    
+    /* Hide some controls on small screens to make room for menu */
+    #playPauseBtn {
+      display: none;
+    }
+  }
+</style> 
