@@ -1,4 +1,10 @@
-# Astro Starter Kit: Minimal
+# BOWAVE
+
+Streetwear website built with Astro.
+
+## Deployment
+
+This site is deployed to GitHub Pages using GitHub Actions.
 
 ```sh
 npm create astro@latest -- --template minimal
