@@ -8,6 +8,7 @@ export default defineConfig({
   output: 'static',
   site: 'https://IssaGithub.github.io',
   base: '/bowa',
+  adapter: undefined,
   vite: {
     plugins: [tailwindcss()],
   }
