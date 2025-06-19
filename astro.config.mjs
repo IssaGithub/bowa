@@ -1,4 +1,4 @@
-// @ts-check
+mi       // @ts-check
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   output: 'static',
   site: 'https://IssaGithub.github.io',
-  base: 'https://github.com/IssaGithub',
+  base: '/bowa',
   vite: {
     plugins: [tailwindcss()],
   }
