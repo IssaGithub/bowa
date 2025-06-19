@@ -1,6 +1,6 @@
 # BOWAVE
 
-Streetwear website built with Astro.
+Streetwear website built with Astro and deployed via GitHub Actions.
 
 ## Deployment
 
