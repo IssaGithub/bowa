@@ -1,11 +1,6 @@
 <header class="border-b border-gray-700">
   <div class="container mx-auto px-4 py-4">
-    <div class="flex justify-between items-center">
-      <!-- BOWAVE Logo -->
-      <a href={`${import.meta.env.BASE_URL}`} class="bg-red-600 px-4 py-2 hover:bg-red-700 transition-colors">
-        <h1 class="text-white font-bold text-xl tracking-wider">BOWAVE</h1>
-      </a>
-      
+    <div class="flex justify-end items-center">
       <!-- User Actions -->
       <div class="flex items-center space-x-4">
         <!-- Login/User Menu -->
@@ -40,6 +35,26 @@
     </div>
   </div>
 </header>
+ <!-- Cookie-Hinweis -->
+ <div class="text-xs text-gray-400 py-4 text-center">
+  Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern. Durch die weitere Nutzung stimmen Sie der Verwendung von Cookies zu. 
+  <a href="#" class="underline">Lesen Sie die Datenschutzrichtlinie</a> hier.
+  <button class="ml-4 text-white hover:text-gray-300">×</button>
+</div>
+
+<!-- Logo Section (moved from header) -->
+<div class="bg-black border-b border-gray-700">
+  <div class="container mx-auto px-4 py-8 text-center">
+    <a href={`${import.meta.env.BASE_URL}`} class="inline-block bg-red-600 px-8 py-4 hover:bg-red-700 transition-colors">
+      <h1 class="text-white font-bold text-3xl md:text-4xl tracking-wider">BOWAVE</h1>
+    </a>
+     <!-- Datum/Zeit -->
+ <div class="text-xs text-center text-gray-300 mb-6">
+  05/06/2025 05:38 LDN
+</div>
+  </div>
+</div>
+
 
 <!-- Login Modal -->
 <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
