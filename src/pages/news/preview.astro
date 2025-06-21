@@ -1,0 +1,157 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Frühjahr/Sommer 2025 Vorschau - BOWAVE">
+  <div class="min-h-screen bg-black text-white">
+    <!-- Hero Section -->
+    <div class="relative h-96 bg-gradient-to-r from-red-900 to-red-600 flex items-center justify-center">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">FRÜHJAHR/SOMMER 2025</h1>
+        <p class="text-xl md:text-2xl text-gray-200">VORSCHAU</p>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container mx-auto px-4 py-16 max-w-4xl">
+      <div class="space-y-16">
+        
+        <!-- Introduction -->
+        <section class="text-center">
+          <h2 class="text-3xl font-bold mb-8">Die Zukunft der Streetwear</h2>
+          <p class="text-xl text-gray-300 leading-relaxed">
+            Unsere Frühjahr/Sommer 2025 Kollektion verbindet urbane Ästhetik mit nachhaltigen Materialien 
+            und innovativen Designs. Entdecken Sie, was als nächstes kommt.
+          </p>
+        </section>
+
+        <!-- Collection Highlights -->
+        <section>
+          <h2 class="text-3xl font-bold mb-12 text-center">Kollektion Highlights</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            
+            <!-- Highlight 1 -->
+            <div class="space-y-6">
+              <div class="bg-gray-800 aspect-square flex items-center justify-center border border-gray-700">
+                <div class="text-center">
+                  <div class="bg-red-600 px-6 py-3 mb-4 mx-auto w-fit">
+                    <span class="text-white font-bold text-lg">BOWAVE</span>
+                  </div>
+                  <p class="text-gray-400">Sustainable Tee Collection</p>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-3">Nachhaltige Basics</h3>
+                <p class="text-gray-300">
+                  Unsere neuen Basic-Shirts werden aus 100% recycelter Bio-Baumwolle hergestellt 
+                  und bieten den gewohnten BOWAVE-Komfort mit verbesserter Umweltbilanz.
+                </p>
+              </div>
+            </div>
+
+            <!-- Highlight 2 -->
+            <div class="space-y-6">
+              <div class="bg-gray-800 aspect-square flex items-center justify-center border border-gray-700">
+                <div class="text-center">
+                  <div class="bg-red-600 px-6 py-3 mb-4 mx-auto w-fit">
+                    <span class="text-white font-bold text-lg">BOWAVE</span>
+                  </div>
+                  <p class="text-gray-400">Tech Wear Collection</p>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-3">Tech-Wear Evolution</h3>
+                <p class="text-gray-300">
+                  Funktionale Streetwear trifft auf modernste Materialien. Wasserabweisend, 
+                  atmungsaktiv und mit integrierten Tech-Features für das urbane Leben.
+                </p>
+              </div>
+            </div>
+
+            <!-- Highlight 3 -->
+            <div class="space-y-6">
+              <div class="bg-gray-800 aspect-square flex items-center justify-center border border-gray-700">
+                <div class="text-center">
+                  <div class="bg-red-600 px-6 py-3 mb-4 mx-auto w-fit">
+                    <span class="text-white font-bold text-lg">BOWAVE</span>
+                  </div>
+                  <p class="text-gray-400">Collaboration Series</p>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-3">Kollaborations-Serie</h3>
+                <p class="text-gray-300">
+                  Exklusive Partnerschaften mit internationalen Künstlern und lokalen 
+                  Kreativen bringen einzigartige Limited Edition Pieces hervor.
+                </p>
+              </div>
+            </div>
+
+            <!-- Highlight 4 -->
+            <div class="space-y-6">
+              <div class="bg-gray-800 aspect-square flex items-center justify-center border border-gray-700">
+                <div class="text-center">
+                  <div class="bg-red-600 px-6 py-3 mb-4 mx-auto w-fit">
+                    <span class="text-white font-bold text-lg">BOWAVE</span>
+                  </div>
+                  <p class="text-gray-400">Accessories Line</p>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-3">Erweiterte Accessoire-Linie</h3>
+                <p class="text-gray-300">
+                  Von minimalistischen Caps bis zu funktionalen Rucksäcken - 
+                  komplettieren Sie Ihren Look mit unseren neuen Accessoires.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Release Information -->
+        <section class="bg-gray-900 border border-gray-700 p-12">
+          <div class="text-center">
+            <h2 class="text-3xl font-bold mb-6">Release Information</h2>
+            <div class="space-y-4 text-lg">
+              <p class="text-gray-300">
+                <strong class="text-white">Vorbestellung startet:</strong> 15. Februar 2025
+              </p>
+              <p class="text-gray-300">
+                <strong class="text-white">Offizieller Release:</strong> 1. März 2025
+              </p>
+              <p class="text-gray-300">
+                <strong class="text-white">Limitierte Stückzahl:</strong> Nur 1000 Pieces pro Design
+              </p>
+            </div>
+            
+            <div class="mt-8">
+              <a href={`${import.meta.env.BASE_URL}/news`} class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 transition-colors">
+                Zurück zu Neuigkeiten
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Newsletter Signup -->
+        <section class="text-center border-t border-gray-700 pt-12">
+          <h2 class="text-2xl font-bold mb-6">Verpassen Sie nichts</h2>
+          <p class="text-gray-300 mb-8">
+            Abonnieren Sie unseren Newsletter für exklusive Previews und Early Access zu neuen Kollektionen.
+          </p>
+          <div class="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+            <input 
+              type="email" 
+              placeholder="Ihre E-Mail-Adresse" 
+              class="flex-1 bg-gray-800 border border-gray-600 px-4 py-3 text-white focus:outline-none focus:border-red-500"
+            />
+            <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 transition-colors">
+              Anmelden
+            </button>
+          </div>
+        </section>
+        
+      </div>
+    </div>
+  </div>
+</Layout> 

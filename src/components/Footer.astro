@@ -4,7 +4,7 @@
     <div class="p-8 max-w-md w-full">
       <div class="flex flex-col items-center">
         <!-- BOWAVE Logo -->
-        <a href="/" class="bg-red-600 px-4 py-2 mb-6 hover:bg-red-700 transition-colors rounded">
+        <a href={`${import.meta.env.BASE_URL}`} class="bg-red-600 px-4 py-2 mb-6 hover:bg-red-700 transition-colors rounded">
           <h1 class="text-white font-bold text-xl tracking-wider">BOWAVE</h1>
         </a>
         
@@ -15,12 +15,12 @@
         
         <!-- Navigation -->
         <nav class="flex flex-col items-center space-y-3 text-sm mb-6">
-          <a href="/news" class="hover:text-gray-300 transition-colors text-white">neuigkeiten</a>
-          <a href="/news/preview" class="hover:text-gray-300 transition-colors text-white">frühjahr/sommer 2025 vorschau</a>
-          <a href="/news/lookbook" class="hover:text-gray-300 transition-colors text-white">frühjahr/sommer 2025 lookbook</a>
-          <a href="/shop" class="hover:text-gray-300 transition-colors text-white">shop</a>
+          <a href={`${import.meta.env.BASE_URL}/news`} class="hover:text-gray-300 transition-colors text-white">neuigkeiten</a>
+          <a href={`${import.meta.env.BASE_URL}/news/preview`} class="hover:text-gray-300 transition-colors text-white">frühjahr/sommer 2025 vorschau</a>
+          <a href={`${import.meta.env.BASE_URL}/news/lookbook`} class="hover:text-gray-300 transition-colors text-white">frühjahr/sommer 2025 lookbook</a>
+          <a href={`${import.meta.env.BASE_URL}/shop`} class="hover:text-gray-300 transition-colors text-white">shop</a>
           <a href="#" class="hover:text-gray-300 transition-colors text-white">zufällig</a>
-          <a href="/about" class="hover:text-gray-300 transition-colors text-white">über uns</a>
+          <a href={`${import.meta.env.BASE_URL}/about`} class="hover:text-gray-300 transition-colors text-white">über uns</a>
           <a href="#" class="hover:text-gray-300 transition-colors text-white">kontakt</a>
           <a href="#" class="hover:text-gray-300 transition-colors text-white">newsletter</a>
         </nav>
