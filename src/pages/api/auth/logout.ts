@@ -1,24 +1,43 @@
 import type { APIRoute } from 'astro';
 
-const MEDUSA_BACKEND_URL = import.meta.env.MEDUSA_BACKEND_URL || 'http://localhost:9000';
-const MEDUSA_PUBLISHABLE_KEY = import.meta.env.MEDUSA_PUBLISHABLE_KEY || 'pk_e677a087b82c8104521e193f53d7f8c34362e61dea419fb1fd16a27ca1e2f1ed';
+const VENDURE_SHOP_API_URL = import.meta.env.VENDURE_SHOP_API_URL || 'http://localhost:3000/shop-api';
 
 export const DELETE: APIRoute = async ({ request }) => {
   try {
     console.log('Logout attempt');
 
-    // Use direct HTTP for logout
-    const response = await fetch(`${MEDUSA_BACKEND_URL}/store/auth`, {
-      method: 'DELETE',
+    // Vendure GraphQL mutation for logout
+    const logoutMutation = `
+      mutation Logout {
+        logout {
+          success
+        }
+      }
+    `;
+
+    const response = await fetch(VENDURE_SHOP_API_URL, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-publishable-api-key': MEDUSA_PUBLISHABLE_KEY,
-        'Accept': 'application/json',
-        'User-Agent': 'Astro-Medusa-Client/1.0',
+        'Cookie': request.headers.get('cookie') || '',
       },
+      body: JSON.stringify({
+        query: logoutMutation
+      })
     });
 
-    // Always return success for logout (even if server logout fails)
+    const result = await response.json();
+    
+    // Forward any Set-Cookie headers to clear session
+    const setCookieHeaders = response.headers.get('set-cookie');
+    const responseHeaders: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (setCookieHeaders) {
+      responseHeaders['Set-Cookie'] = setCookieHeaders;
+    }
+
     console.log('Logout completed');
 
     return new Response(
@@ -27,9 +46,7 @@ export const DELETE: APIRoute = async ({ request }) => {
       }),
       {
         status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        headers: responseHeaders
       }
     );
 

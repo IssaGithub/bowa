@@ -1,87 +1,116 @@
 import type { APIRoute } from 'astro';
 
-const MEDUSA_BACKEND_URL = import.meta.env.MEDUSA_BACKEND_URL || 'http://localhost:9000';
-const MEDUSA_PUBLISHABLE_KEY = import.meta.env.MEDUSA_PUBLISHABLE_KEY || 'pk_e677a087b82c8104521e193f53d7f8c34362e61dea419fb1fd16a27ca1e2f1ed';
+const VENDURE_SHOP_API_URL = import.meta.env.VENDURE_SHOP_API_URL || 'http://localhost:3000/shop-api';
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     const body = await request.json();
-    
-    if (!body.email || !body.password) {
-      return new Response(
-        JSON.stringify({ 
-          message: 'E-Mail und Passwort sind erforderlich' 
-        }),
-        { 
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-      );
+    const { email, password } = body;
+
+    if (!email || !password) {
+      return new Response(JSON.stringify({ 
+        error: 'Email and password are required' 
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
-    console.log('Login attempt for:', body.email);
+    // Vendure GraphQL mutation for login
+    const loginMutation = `
+      mutation Login($username: String!, $password: String!, $rememberMe: Boolean) {
+        login(username: $username, password: $password, rememberMe: $rememberMe) {
+          __typename
+          ... on CurrentUser {
+            id
+            identifier
+            channels {
+              id
+              token
+              code
+            }
+          }
+          ... on InvalidCredentialsError {
+            errorCode
+            message
+          }
+          ... on NativeAuthStrategyError {
+            errorCode
+            message
+          }
+        }
+      }
+    `;
 
-    // Use direct HTTP for login
-    const response = await fetch(`${MEDUSA_BACKEND_URL}/store/auth`, {
+    const response = await fetch(VENDURE_SHOP_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-publishable-api-key': MEDUSA_PUBLISHABLE_KEY,
-        'Accept': 'application/json',
-        'User-Agent': 'Astro-Medusa-Client/1.0',
+        'Cookie': request.headers.get('cookie') || '',
       },
       body: JSON.stringify({
-        email: body.email,
-        password: body.password,
-      }),
+        query: loginMutation,
+        variables: {
+          username: email,
+          password: password,
+          rememberMe: true
+        }
+      })
     });
 
-    const data = await response.json();
+    const result = await response.json();
     
-    if (!response.ok) {
-      return new Response(
-        JSON.stringify({ 
-          message: data.message || 'Anmeldung fehlgeschlagen'
-        }),
-        { 
-          status: response.status,
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-      );
+    if (result.errors) {
+      return new Response(JSON.stringify({ 
+        error: result.errors[0].message 
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
-    console.log('Authentication successful');
-
-    return new Response(
-      JSON.stringify({
-        customer: data.customer || data.user,
-        message: 'Anmeldung erfolgreich'
-      }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        }
+    const loginResult = result.data?.login;
+    
+    if (loginResult?.__typename === 'CurrentUser') {
+      // Forward Set-Cookie headers from Vendure
+      const setCookieHeaders = response.headers.get('set-cookie');
+      const responseHeaders: HeadersInit = {
+        'Content-Type': 'application/json'
+      };
+      
+      if (setCookieHeaders) {
+        responseHeaders['Set-Cookie'] = setCookieHeaders;
       }
-    );
+
+      return new Response(JSON.stringify({
+        success: true,
+        customer: {
+          id: loginResult.id,
+          email: loginResult.identifier,
+          first_name: loginResult.identifier.split('@')[0], // Fallback
+          last_name: ''
+        }
+      }), {
+        status: 200,
+        headers: responseHeaders
+      });
+    } else {
+      // Login failed
+      return new Response(JSON.stringify({ 
+        error: loginResult?.message || 'Invalid credentials' 
+      }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
   } catch (error) {
     console.error('Login error:', error);
-    return new Response(
-      JSON.stringify({ 
-        message: 'Interner Serverfehler',
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }),
-      { 
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-    );
+    return new Response(JSON.stringify({ 
+      error: 'Internal server error' 
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 }; 

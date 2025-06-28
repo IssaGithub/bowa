@@ -204,17 +204,9 @@
 </div>
 
 <script>
-  import Medusa from "@medusajs/js-sdk"
-  
-  // Initialize the SDK instance
-  const sdk = new Medusa({
-  baseUrl: "http://localhost:9000",
-  debug: false,
-  publishableKey: "pk_e677a087b82c8104521e193f53d7f8c34362e61dea419fb1fd16a27ca1e2f1ed",
-});
-  
   // API URLs using Astro API endpoints
   const API_BASE_URL = '/api/auth';
+  const VENDURE_SHOP_API_URL = '/api/vendure';
   
   // DOM elements
   const loginBtn = document.getElementById('loginBtn');
@@ -329,30 +321,26 @@
     };
     
     try {
-      console.log("sdk", sdk);
-      // Step 1: Register to get a token
-      const token = await sdk.auth.register("customer", "emailpass", {
-        email: customerData.email,
-        password: customerData.password
-      });
-    
-      // Step 2: Create the customer using the token
-      const { customer } = await sdk.store.customer.create(
-        {
-          email: customerData.email,
-          first_name: customerData.first_name,
-          last_name: customerData.last_name
+      // Create registration API endpoint for Vendure
+      const response = await fetch(`${API_BASE_URL}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {},
-        {
-          Authorization: `Bearer ${token}`
-        }
-      );
-   
-      // Store customer data and update UI
-      localStorage.setItem('customer', JSON.stringify(customer));
-      updateUIForLoggedInUser(customer);
-      closeModal(registerModal);
+        body: JSON.stringify(customerData),
+        credentials: 'include'
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Store customer data and update UI
+        localStorage.setItem('customer', JSON.stringify(data.customer));
+        updateUIForLoggedInUser(data.customer);
+        closeModal(registerModal);
+      } else {
+        showError(registerError, data.message || 'Registrierung fehlgeschlagen');
+      }
     } catch (error) {
       console.error('Registration error:', error);
       showError(registerError, 'Registrierung fehlgeschlagen. Versuchen Sie es später erneut.');

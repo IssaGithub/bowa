@@ -1,31 +1,60 @@
 import type { APIRoute } from 'astro';
 
-const MEDUSA_BACKEND_URL = import.meta.env.MEDUSA_BACKEND_URL || 'http://localhost:9000';
-const MEDUSA_PUBLISHABLE_KEY = import.meta.env.MEDUSA_PUBLISHABLE_KEY || 'pk_e677a087b82c8104521e193f53d7f8c34362e61dea419fb1fd16a27ca1e2f1ed';
+const VENDURE_SHOP_API_URL = import.meta.env.VENDURE_SHOP_API_URL || 'http://localhost:3000/shop-api';
 
 export const GET: APIRoute = async ({ request }) => {
   try {
-    // Forward cookies from the client request to Medusa
+    // Forward cookies from the client request to Vendure
     const cookies = request.headers.get('cookie');
     
-    const response = await fetch(`${MEDUSA_BACKEND_URL}/store/auth/session`, {
-      method: 'GET',
+    // Vendure GraphQL query to get current user
+    const meQuery = `
+      query Me {
+        me {
+          id
+          identifier
+          firstName
+          lastName
+        }
+      }
+    `;
+    
+    const response = await fetch(VENDURE_SHOP_API_URL, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-publishable-api-key': MEDUSA_PUBLISHABLE_KEY,
         ...(cookies && { 'Cookie': cookies }),
       },
+      body: JSON.stringify({
+        query: meQuery
+      })
     });
 
-    const data = await response.json();
+    const result = await response.json();
 
-    if (!response.ok) {
+    if (result.errors) {
       return new Response(
         JSON.stringify({ 
-          message: data.message || 'Sitzung nicht gefunden' 
+          message: 'Sitzung nicht gefunden' 
         }),
         { 
-          status: response.status,
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+    }
+
+    const user = result.data?.me;
+    
+    if (!user || !user.id) {
+      return new Response(
+        JSON.stringify({ 
+          message: 'Sitzung nicht gefunden' 
+        }),
+        { 
+          status: 401,
           headers: {
             'Content-Type': 'application/json',
           }
@@ -35,7 +64,12 @@ export const GET: APIRoute = async ({ request }) => {
 
     return new Response(
       JSON.stringify({
-        customer: data.customer,
+        customer: {
+          id: user.id,
+          email: user.identifier,
+          first_name: user.firstName || user.identifier.split('@')[0],
+          last_name: user.lastName || ''
+        },
         message: 'Sitzung gefunden'
       }),
       {
