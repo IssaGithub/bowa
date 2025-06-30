@@ -20,6 +20,9 @@ const videos = [
 ];
 ---
 
+<!-- Footer moved to top -->
+<Footer />
+
 <section class="relative h-screen overflow-hidden bg-black">
   <!-- Video Slider Container - Background -->
   <div id="videoSlider" class="relative w-full h-full z-10">
@@ -40,7 +43,7 @@ const videos = [
     ))}
   </div>
   
-  <!-- Navigation Controls (lower z-index than menu) -->
+  <!-- Navigation Controls -->
   <div class="absolute inset-0 z-20 pointer-events-none">
     <!-- Navigation Dots -->
     <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 pointer-events-auto">
@@ -74,9 +77,6 @@ const videos = [
       </svg>
     </button>
   </div>
-  
-  <!-- Menu Overlay (highest z-index) -->
-  <Footer />
 </section>
 
 <script>
