@@ -4,18 +4,16 @@ import Footer from './Footer.astro';
 
 const videos = [
   {
-    background: ' linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);',
-    title: 'BOWAVE Summer Collection',
-    subtitle: 'Neue Streetwear für den Sommer 2025',
-    cta: 'Jetzt entdecken',
-    overlay: 'bg-red-900 bg-opacity-20'
+    src: `${import.meta.env.BASE_URL}/videos/bowa-v1.mp4`,
+    poster: '', // Optional poster image
+    cta: '',
+    // overlay: 'bg-red-900 bg-opacity-20'
   },
   {
-    background: ' linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);',
-    title: 'Limited Edition Drop',
-    subtitle: 'Exklusive Pieces für echte Streetwear-Fans',
-    cta: 'Shop Collection',
-    overlay: 'bg-gray-900 bg-opacity-30'
+    src: `${import.meta.env.BASE_URL}/videos/bowa-v2.mp4`,
+    poster: '', // Optional poster image
+    cta: '',
+    // overlay: 'bg-gray-900 bg-opacity-30'
   }
 ];
 ---
@@ -30,15 +28,46 @@ const videos = [
       <div 
         class={`video-slide absolute inset-0 transition-opacity duration-1000 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
         data-slide={index}
-        style={`background: ${video.background};`}
       >
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-10">
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse" style="background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
-        </div>
+        <!-- Video Element -->
+        <video
+          class="absolute inset-0 w-full h-full object-cover"
+          autoplay={index === 0}
+          muted
+          loop
+          playsinline
+          poster={video.poster}
+          data-video-index={index}
+        >
+          <source src={video.src} type="video/mp4" />
+          Ihr Browser unterstützt keine Videos.
+        </video>
         
-        <!-- Slide Overlay -->
+        <!-- Video Overlay -->
         <div class={`absolute inset-0 ${video.overlay}`}></div>
+        
+        <!-- Content Overlay -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="text-center text-white px-4 max-w-4xl mx-auto">
+            <!-- Video Title -->
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+              {video.title}
+            </h2>
+            
+            <!-- Video Subtitle -->
+            <p class="text-xl md:text-2xl mb-8 text-gray-200">
+              {video.subtitle}
+            </p>
+            
+            <!-- CTA Button -->
+            <button 
+              class="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 text-lg transition-colors duration-300 border border-red-600 hover:border-red-700"
+              onclick={`window.location.href='${import.meta.env.BASE_URL}/shop'`}
+            >
+              {video.cta}
+            </button>
+          </div>
+        </div>
       </div>
     ))}
   </div>
@@ -76,32 +105,62 @@ const videos = [
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
       </svg>
     </button>
+    
+    <!-- Play/Pause Button -->
+    <button 
+      id="playPauseBtn"
+      class="absolute bottom-8 right-8 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-70 transition-all duration-300 pointer-events-auto"
+      aria-label="Play/Pause video"
+    >
+      <svg id="playIcon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <svg id="pauseIcon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+    </button>
   </div>
 </section>
 
 <script>
-  // Background Slider Functionality
+  // Video Slider Functionality
   let currentSlide = 0;
   const slides = document.querySelectorAll('.video-slide');
+  const videos = document.querySelectorAll('.video-slide video');
   const dots = document.querySelectorAll('[data-slide-to]');
   const totalSlides = slides.length;
   let slideInterval: NodeJS.Timeout;
+  let isPlaying = true;
   
   // Initialize slider
   function initSlider() {
-    // Auto-advance slides every 8 seconds
+    // Auto-advance slides every 15 seconds (longer for videos)
     slideInterval = setInterval(() => {
       nextSlide();
-    }, 8000);
+    }, 15000);
   }
   
   // Show specific slide
   function showSlide(index: number) {
+    // Pause all videos first
+    videos.forEach((video) => {
+      video.pause();
+    });
+    
     // Hide all slides
     slides.forEach((slide, i) => {
       slide.classList.toggle('opacity-100', i === index);
       slide.classList.toggle('opacity-0', i !== index);
     });
+    
+    // Play current video if playing state is true
+    const currentVideo = videos[index] as HTMLVideoElement;
+    if (currentVideo && isPlaying) {
+      currentVideo.play().catch(() => {
+        // Autoplay might be blocked, that's okay
+        console.log('Video autoplay was prevented');
+      });
+    }
     
     // Update dots
     dots.forEach((dot, i) => {
@@ -125,6 +184,29 @@ const videos = [
     showSlide(prev);
   }
   
+  // Play/Pause functionality
+  function togglePlayPause() {
+    const currentVideo = videos[currentSlide] as HTMLVideoElement;
+    const playIcon = document.getElementById('playIcon');
+    const pauseIcon = document.getElementById('pauseIcon');
+    
+    if (isPlaying) {
+      // Pause video
+      currentVideo?.pause();
+      isPlaying = false;
+      playIcon?.classList.remove('hidden');
+      pauseIcon?.classList.add('hidden');
+    } else {
+      // Play video
+      currentVideo?.play().catch(() => {
+        console.log('Video play was prevented');
+      });
+      isPlaying = true;
+      playIcon?.classList.add('hidden');
+      pauseIcon?.classList.remove('hidden');
+    }
+  }
+
   // Event listeners
   document.addEventListener('DOMContentLoaded', () => {
     // Navigation arrows
@@ -140,6 +222,11 @@ const videos = [
       // Reset auto-advance timer
       clearInterval(slideInterval);
       initSlider();
+    });
+    
+    // Play/Pause button
+    document.getElementById('playPauseBtn')?.addEventListener('click', () => {
+      togglePlayPause();
     });
     
     // Dots navigation
@@ -158,6 +245,9 @@ const videos = [
         prevSlide();
       } else if (e.key === 'ArrowRight') {
         nextSlide();
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        togglePlayPause();
       }
     });
     
@@ -173,6 +263,17 @@ const videos = [
     
     // Initialize
     initSlider();
+    
+    // Start first video
+    const firstVideo = videos[0] as HTMLVideoElement;
+    if (firstVideo) {
+      firstVideo.play().catch(() => {
+        console.log('Initial video autoplay was prevented');
+        isPlaying = false;
+        document.getElementById('playIcon')?.classList.remove('hidden');
+        document.getElementById('pauseIcon')?.classList.add('hidden');
+      });
+    }
   });
 </script>
 
