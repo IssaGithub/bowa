@@ -1,10 +1,35 @@
 import type { APIRoute } from 'astro';
 
+// Enable server-side rendering for this API route
+export const prerender = false;
+
 const VENDURE_SHOP_API_URL = import.meta.env.VENDURE_SHOP_API_URL || 'http://localhost:3000/shop-api';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const body = await request.json();
+    // Better JSON parsing with error handling
+    let body;
+    try {
+      const text = await request.text();
+      if (!text || text.trim() === '') {
+        return new Response(JSON.stringify({ 
+          error: 'Request body is empty' 
+        }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      body = JSON.parse(text);
+    } catch (parseError) {
+      console.error('JSON parsing error:', parseError);
+      return new Response(JSON.stringify({ 
+        error: 'Invalid JSON in request body' 
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     const { email, password, first_name, last_name } = body;
 
     if (!email || !password) {

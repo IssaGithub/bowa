@@ -1,5 +1,8 @@
 import type { APIRoute } from 'astro';
 
+// Enable server-side rendering for this API route
+export const prerender = false;
+
 const VENDURE_SHOP_API_URL = import.meta.env.VENDURE_SHOP_API_URL || 'http://localhost:3000/shop-api';
 
 export const GET: APIRoute = async ({ request }) => {
