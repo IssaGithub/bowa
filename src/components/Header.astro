@@ -189,9 +189,8 @@
 </div>
 
 <script>
-  // API URLs using Astro API endpoints
-  const API_BASE_URL = '/api/auth';
-  const VENDURE_SHOP_API_URL = '/api/vendure';
+  // Direct Vendure API URL - you'll need to replace this with your actual Vendure API URL
+  const VENDURE_SHOP_API_URL = 'http://localhost:3000/shop-api'; // Replace with your actual Vendure API URL
   
   // DOM elements
   const loginBtn = document.getElementById('loginBtn');
@@ -268,24 +267,70 @@
     const password = formData.get('password');
     
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      // Direct GraphQL mutation to Vendure
+      const loginMutation = `
+        mutation Login($username: String!, $password: String!, $rememberMe: Boolean) {
+          login(username: $username, password: $password, rememberMe: $rememberMe) {
+            __typename
+            ... on CurrentUser {
+              id
+              identifier
+              channels {
+                id
+                token
+                code
+              }
+            }
+            ... on InvalidCredentialsError {
+              errorCode
+              message
+            }
+            ... on NativeAuthStrategyError {
+              errorCode
+              message
+            }
+          }
+        }
+      `;
+
+      const response = await fetch(VENDURE_SHOP_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          query: loginMutation,
+          variables: {
+            username: email,
+            password: password,
+            rememberMe: true
+          }
+        }),
         credentials: 'include'
       });
       
-      const data = await response.json();
+      const result = await response.json();
       
-      if (response.ok) {
-        // Store customer data
-        localStorage.setItem('customer', JSON.stringify(data.customer));
-        updateUIForLoggedInUser(data.customer);
+      if (result.errors) {
+        showError(loginError, result.errors[0].message || 'Anmeldung fehlgeschlagen');
+        return;
+      }
+
+      const loginResult = result.data?.login;
+      
+      if (loginResult?.__typename === 'CurrentUser') {
+        const customer = {
+          id: loginResult.id,
+          email: loginResult.identifier,
+          first_name: loginResult.identifier.split('@')[0], // Fallback
+          last_name: ''
+        };
+        
+        localStorage.setItem('customer', JSON.stringify(customer));
+        updateUIForLoggedInUser(customer);
         closeModal(loginModal);
       } else {
-        showError(loginError, data.message || 'Anmeldung fehlgeschlagen');
+        showError(loginError, loginResult?.message || 'Ungültige Anmeldedaten');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -306,25 +351,71 @@
     };
     
     try {
-      // Create registration API endpoint for Vendure
-      const response = await fetch(`${API_BASE_URL}/register`, {
+      // Direct GraphQL mutation to Vendure for registration
+      const registerMutation = `
+        mutation RegisterCustomerAccount($input: RegisterCustomerInput!) {
+          registerCustomerAccount(input: $input) {
+            __typename
+            ... on Success {
+              success
+            }
+            ... on MissingPasswordError {
+              errorCode
+              message
+            }
+            ... on PasswordValidationError {
+              errorCode
+              message
+            }
+            ... on NativeAuthStrategyError {
+              errorCode
+              message
+            }
+          }
+        }
+      `;
+
+      const response = await fetch(VENDURE_SHOP_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(customerData),
+        body: JSON.stringify({
+          query: registerMutation,
+          variables: {
+            input: {
+              firstName: customerData.first_name,
+              lastName: customerData.last_name,
+              emailAddress: customerData.email,
+              password: customerData.password
+            }
+          }
+        }),
         credentials: 'include'
       });
       
-      const data = await response.json();
+      const result = await response.json();
       
-      if (response.ok) {
-        // Store customer data and update UI
-        localStorage.setItem('customer', JSON.stringify(data.customer));
-        updateUIForLoggedInUser(data.customer);
+      if (result.errors) {
+        showError(registerError, result.errors[0].message || 'Registrierung fehlgeschlagen');
+        return;
+      }
+
+      const registerResult = result.data?.registerCustomerAccount;
+      
+      if (registerResult?.__typename === 'Success') {
+        // After successful registration, automatically log in
+        const customer = {
+          email: customerData.email,
+          first_name: customerData.first_name,
+          last_name: customerData.last_name
+        };
+        
+        localStorage.setItem('customer', JSON.stringify(customer));
+        updateUIForLoggedInUser(customer);
         closeModal(registerModal);
       } else {
-        showError(registerError, data.message || 'Registrierung fehlgeschlagen');
+        showError(registerError, registerResult?.message || 'Registrierung fehlgeschlagen');
       }
     } catch (error) {
       console.error('Registration error:', error);
@@ -334,8 +425,23 @@
   
   async function logout() {
     try {
-      await fetch(`${API_BASE_URL}/logout`, {
-        method: 'DELETE',
+      // Direct GraphQL mutation to Vendure for logout
+      const logoutMutation = `
+        mutation Logout {
+          logout {
+            success
+          }
+        }
+      `;
+
+      await fetch(VENDURE_SHOP_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: logoutMutation
+        }),
         credentials: 'include'
       });
       
