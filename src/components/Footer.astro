@@ -1,8 +1,13 @@
+---
+// Import the logo image
+import VectorLogo from '/public/images/VectorLogo.png?url';
+---
+
 <footer class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none">
   <!-- Logo Section (moved from header) -->
   <div class="container mx-auto px-2 py-6 text-center">
     <a href={`${import.meta.env.BASE_URL}`} class="inline-block bg-red-600 px-6 py-3 hover:bg-red-700 transition-colors">
-      <h1 class="text-white font-bold text-3xl md:text-4xl tracking-wider">BOWAVE</h1>
+      <img src={VectorLogo} alt="BOWAVE" class="h-8 md:h-10 w-auto mx-auto" />
     </a>
     <!-- Datum/Zeit -->
     <div class="text-xs text-center text-gray-300 mt-4">
@@ -17,14 +22,14 @@
         
         <!-- Navigation -->
         <nav class="flex flex-col items-center space-y-3 text-sm mb-6">
-          <a href={`${import.meta.env.BASE_URL}/news`} class="hover:text-gray-300 transition-colors text-white">neuigkeiten</a>
-          <a href={`${import.meta.env.BASE_URL}/news/preview`} class="hover:text-gray-300 transition-colors text-white">frühjahr/sommer 2025 vorschau</a>
-          <a href={`${import.meta.env.BASE_URL}/news/lookbook`} class="hover:text-gray-300 transition-colors text-white">frühjahr/sommer 2025 lookbook</a>
-          <a href={`${import.meta.env.BASE_URL}/shop`} class="hover:text-gray-300 transition-colors text-white">shop</a>
-          <a href="#" class="hover:text-gray-300 transition-colors text-white">zufällig</a>
-          <a href={`${import.meta.env.BASE_URL}/about`} class="hover:text-gray-300 transition-colors text-white">über uns</a>
-          <a href="#" class="hover:text-gray-300 transition-colors text-white">kontakt</a>
-          <a href="#" class="hover:text-gray-300 transition-colors text-white">newsletter</a>
+          <a href={`${import.meta.env.BASE_URL}/news`} class="hover:text-gray-300 transition-colors text-white no-underline">neuigkeiten</a>
+          <a href={`${import.meta.env.BASE_URL}/news/preview`} class="hover:text-gray-300 transition-colors text-white no-underline">frühjahr/sommer 2025 vorschau</a>
+          <a href={`${import.meta.env.BASE_URL}/news/lookbook`} class="hover:text-gray-300 transition-colors text-white no-underline">frühjahr/sommer 2025 lookbook</a>
+          <a href={`${import.meta.env.BASE_URL}/shop`} class="hover:text-gray-300 transition-colors text-white no-underline">shop</a>
+          <a href="#" class="hover:text-gray-300 transition-colors text-white no-underline">zufällig</a>
+          <a href={`${import.meta.env.BASE_URL}/about`} class="hover:text-gray-300 transition-colors text-white no-underline">über uns</a>
+          <a href="#" class="hover:text-gray-300 transition-colors text-white no-underline">kontakt</a>
+          <a href="#" class="hover:text-gray-300 transition-colors text-white no-underline">newsletter</a>
         </nav>
         
         <!-- Social Icons -->
@@ -61,6 +66,24 @@
 </footer>
 
 <style>
+  /* Navigation link styling to override browser defaults */
+  nav a {
+    color: white !important;
+    text-decoration: none !important;
+  }
+  
+  nav a:visited {
+    color: white !important;
+  }
+  
+  nav a:hover {
+    color: #d1d5db !important; /* text-gray-300 */
+  }
+  
+  nav a:active {
+    color: white !important;
+  }
+  
   /* Responsives Design für das Overlay-Menü */
   @media (max-width: 768px) {
     footer .bg-black {
