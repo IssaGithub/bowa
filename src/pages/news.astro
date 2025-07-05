@@ -1,97 +1,111 @@
 ---
 import Layout from '../layouts/Layout.astro';
+// Import the logo image
+import VectorLogo from '/public/images/VectorLogo.png?url';
 ---
 
 <Layout title="Neuigkeiten - BOWAVE">
-  <div class="container mx-auto px-4 py-16">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl font-bold mb-12 text-center">Aktuelle Neuigkeiten</h1>
-      
-      <div class="space-y-12">
-        <!-- Featured Article -->
-        <article class="border-b border-gray-700 pb-12">
-          <div class="mb-4">
-            <span class="text-xs text-gray-400">05/06/2025</span>
-          </div>
-          <h2 class="text-3xl font-bold mb-6">Frühjahr/Sommer 2025 Kollektions-Vorschau</h2>
-          <p class="text-gray-300 mb-6 text-lg">
-            Erhalten Sie einen exklusiven ersten Einblick in unsere kommende Frühjahr/Sommer 2025 Kollektion mit 
-            innovativen Designs und klassischen Streetwear-Essentials. Diese Saison vereint 
-            gewagte Grafiken, Premium-Materialien und zeitlose Silhouetten.
-          </p>
-          <div class="mb-8">
-            <a href={`${import.meta.env.BASE_URL}/news/preview`} class="text-red-500 hover:text-red-400 transition-colors text-lg">
-              🎯 Neue Frühjahr/Sommer 2025 Vorschau verfügbar →
-            </a>
-          </div>
-        </article>
-        
-        <!-- Article 2 -->
-        <article class="border-b border-gray-700 pb-12">
-          <div class="mb-4">
-            <span class="text-xs text-gray-400">28/05/2025</span>
-          </div>
-          <h2 class="text-2xl font-bold mb-6">Neue Store-Eröffnung in Tokyo</h2>
-          <p class="text-gray-300 mb-6">
-            Wir freuen uns, die Eröffnung unseres neuesten Flagship-Stores im Herzen von Tokyo bekannt zu geben. 
-            Der Store wird exklusive Japan-only Releases und einzigartige Kollaborationen anbieten.
-          </p>
-          <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
-            Vollständigen Artikel lesen →
-          </a>
-        </article>
-        
-        <!-- Article 3 -->
-        <article class="border-b border-gray-700 pb-12">
-          <div class="mb-4">
-            <span class="text-xs text-gray-400">22/05/2025</span>
-          </div>
-          <h2 class="text-2xl font-bold mb-6">Limited Edition Kollaborations-Drop</h2>
-          <p class="text-gray-300 mb-6">
-            Unsere mit Spannung erwartete Kollaboration mit renommierten Künstlern bringt Street Art 
-            und High Fashion in einer exklusiven Limited Edition Kapsel-Kollektion zusammen.
-          </p>
-          <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
-            Vollständigen Artikel lesen →
-          </a>
-        </article>
-        
-        <!-- Article 4 -->
-        <article class="border-b border-gray-700 pb-12">
-          <div class="mb-4">
-            <span class="text-xs text-gray-400">15/05/2025</span>
-          </div>
-          <h2 class="text-2xl font-bold mb-6">Start der Nachhaltigkeits-Initiative</h2>
-          <p class="text-gray-300 mb-6">
-            Wir verpflichten uns, unsere Umweltauswirkungen durch neue nachhaltige 
-            Herstellungsprozesse und umweltfreundliche Materialien in unseren Produktlinien zu reduzieren.
-          </p>
-          <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
-            Vollständigen Artikel lesen →
-          </a>
-        </article>
-        
-        <!-- Article 5 -->
-        <article class="pb-12">
-          <div class="mb-4">
-            <span class="text-xs text-gray-400">10/05/2025</span>
-          </div>
-          <h2 class="text-2xl font-bold mb-6">Hinter den Kulissen: Der Designprozess</h2>
-          <p class="text-gray-300 mb-6">
-            Werfen Sie einen Blick hinter die Kulissen unseres kreativen Prozesses und lernen Sie die Designer hinter unseren 
-            ikonischsten Stücken kennen. Von der Idee bis zur Umsetzung - entdecken Sie, was in jedes Design einfließt.
-          </p>
-          <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
-            Vollständigen Artikel lesen →
-          </a>
-        </article>
+  <div class="min-h-screen bg-black text-white">
+    <!-- Logo Header -->
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex items-center justify-center mb-8">
+        <a href={`${import.meta.env.BASE_URL}`} class="hover:opacity-80 transition-opacity">
+          <img src={VectorLogo} alt="BOWAVE" class="h-12 w-auto" />
+        </a>
       </div>
-      
-      <!-- Load More Button -->
-      <div class="text-center mt-16">
-        <button class="border border-gray-600 px-8 py-3 hover:border-gray-400 transition-colors text-lg">
-          Weitere Artikel laden
-        </button>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 pb-16">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-12 text-center">Aktuelle Neuigkeiten</h1>
+        
+        <div class="space-y-12">
+          <!-- Featured Article -->
+          <article class="border-b border-gray-700 pb-12">
+            <div class="mb-4">
+              <span class="text-xs text-gray-400">05/06/2025</span>
+            </div>
+            <h2 class="text-3xl font-bold mb-6">Frühjahr/Sommer 2025 Kollektions-Vorschau</h2>
+            <p class="text-gray-300 mb-6 text-lg">
+              Erhalten Sie einen exklusiven ersten Einblick in unsere kommende Frühjahr/Sommer 2025 Kollektion mit 
+              innovativen Designs und klassischen Streetwear-Essentials. Diese Saison vereint 
+              gewagte Grafiken, Premium-Materialien und zeitlose Silhouetten.
+            </p>
+            <div class="mb-8">
+              <a href={`${import.meta.env.BASE_URL}/news/preview`} class="text-red-500 hover:text-red-400 transition-colors text-lg">
+                🎯 Neue Frühjahr/Sommer 2025 Vorschau verfügbar →
+              </a>
+            </div>
+          </article>
+          
+          <!-- Article 2 -->
+          <article class="border-b border-gray-700 pb-12">
+            <div class="mb-4">
+              <span class="text-xs text-gray-400">28/05/2025</span>
+            </div>
+            <h2 class="text-2xl font-bold mb-6">Neue Store-Eröffnung in Tokyo</h2>
+            <p class="text-gray-300 mb-6">
+              Wir freuen uns, die Eröffnung unseres neuesten Flagship-Stores im Herzen von Tokyo bekannt zu geben. 
+              Der Store wird exklusive Japan-only Releases und einzigartige Kollaborationen anbieten.
+            </p>
+            <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
+              Vollständigen Artikel lesen →
+            </a>
+          </article>
+          
+          <!-- Article 3 -->
+          <article class="border-b border-gray-700 pb-12">
+            <div class="mb-4">
+              <span class="text-xs text-gray-400">22/05/2025</span>
+            </div>
+            <h2 class="text-2xl font-bold mb-6">Limited Edition Kollaborations-Drop</h2>
+            <p class="text-gray-300 mb-6">
+              Unsere mit Spannung erwartete Kollaboration mit renommierten Künstlern bringt Street Art 
+              und High Fashion in einer exklusiven Limited Edition Kapsel-Kollektion zusammen.
+            </p>
+            <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
+              Vollständigen Artikel lesen →
+            </a>
+          </article>
+          
+          <!-- Article 4 -->
+          <article class="border-b border-gray-700 pb-12">
+            <div class="mb-4">
+              <span class="text-xs text-gray-400">15/05/2025</span>
+            </div>
+            <h2 class="text-2xl font-bold mb-6">Start der Nachhaltigkeits-Initiative</h2>
+            <p class="text-gray-300 mb-6">
+              Wir verpflichten uns, unsere Umweltauswirkungen durch neue nachhaltige 
+              Herstellungsprozesse und umweltfreundliche Materialien in unseren Produktlinien zu reduzieren.
+            </p>
+            <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
+              Vollständigen Artikel lesen →
+            </a>
+          </article>
+          
+          <!-- Article 5 -->
+          <article class="pb-12">
+            <div class="mb-4">
+              <span class="text-xs text-gray-400">10/05/2025</span>
+            </div>
+            <h2 class="text-2xl font-bold mb-6">Hinter den Kulissen: Der Designprozess</h2>
+            <p class="text-gray-300 mb-6">
+              Werfen Sie einen Blick hinter die Kulissen unseres kreativen Prozesses und lernen Sie die Designer hinter unseren 
+              ikonischsten Stücken kennen. Von der Idee bis zur Umsetzung - entdecken Sie, was in jedes Design einfließt.
+            </p>
+            <a href="#" class="text-red-500 hover:text-red-400 transition-colors">
+              Vollständigen Artikel lesen →
+            </a>
+          </article>
+        </div>
+        
+        <!-- Load More Button -->
+        <div class="text-center mt-16">
+          <button class="border border-gray-600 px-8 py-3 hover:border-gray-400 transition-colors text-lg">
+            Weitere Artikel laden
+          </button>
+        </div>
       </div>
     </div>
   </div>

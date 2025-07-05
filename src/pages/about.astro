@@ -1,144 +1,158 @@
 ---
 import Layout from '../layouts/Layout.astro';
+// Import the logo image
+import VectorLogo from '/public/images/VectorLogo.png?url';
 ---
 
 <Layout title="Über uns - BOWAVE">
-  <div class="container mx-auto px-4 py-16">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl font-bold mb-12 text-center">Über BOWAVE</h1>
-      
-      <div class="space-y-16">
-        <!-- Brand Story -->
-        <section>
-          <h2 class="text-3xl font-bold mb-8">Unsere Geschichte</h2>
-          <div class="space-y-6 text-gray-300 text-lg">
-            <p>
-              BOWAVE wurde 1994 in New York City gegründet und hat sich von einem kleinen Skateboard-Shop 
-              zu einer der einflussreichsten Streetwear-Marken der Welt entwickelt. Unsere Reise begann 
-              mit einer einfachen Mission: authentische Produkte für die Skateboard- und 
-              Street-Culture-Community zu schaffen.
-            </p>
-            <p>
-              Was als Leidenschaftsprojekt begann, hat sich zu einem globalen Phänomen entwickelt, 
-              wobei wir unser Engagement für Qualität, Authentizität und die Underground-Kultur, 
-              die uns geprägt hat, beibehalten haben. Wir sind unseren Wurzeln treu geblieben und haben gleichzeitig die Grenzen von 
-              Design und Kreativität verschoben.
-            </p>
-            <p>
-              Heute repräsentiert BOWAVE mehr als nur Kleidung – es ist ein Lifestyle, ein Statement 
-              und eine Gemeinschaft von Menschen, die Originalität und Selbstausdruck schätzen.
-            </p>
-          </div>
-        </section>
+  <div class="min-h-screen bg-black text-white">
+    <!-- Logo Header -->
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex items-center justify-center mb-8">
+        <a href={`${import.meta.env.BASE_URL}`} class="hover:opacity-80 transition-opacity">
+          <img src={VectorLogo} alt="BOWAVE" class="h-12 w-auto" />
+        </a>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 pb-16">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-12 text-center">Über BOWAVE</h1>
         
-        <!-- Values -->
-        <section>
-          <h2 class="text-3xl font-bold mb-8">Unsere Werte</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="border border-gray-700 p-8">
-              <h3 class="text-xl font-semibold mb-4 text-red-500">Authentizität</h3>
-              <p class="text-gray-300">
-                Wir bleiben unseren Ursprüngen und der Kultur, die uns geschaffen hat, treu und machen niemals 
-                Kompromisse bei unseren Grundwerten für kommerziellen Erfolg.
+        <div class="space-y-16">
+          <!-- Brand Story -->
+          <section>
+            <h2 class="text-3xl font-bold mb-8">Unsere Geschichte</h2>
+            <div class="space-y-6 text-gray-300 text-lg">
+              <p>
+                BOWAVE wurde 1994 in New York City gegründet und hat sich von einem kleinen Skateboard-Shop 
+                zu einer der einflussreichsten Streetwear-Marken der Welt entwickelt. Unsere Reise begann 
+                mit einer einfachen Mission: authentische Produkte für die Skateboard- und 
+                Street-Culture-Community zu schaffen.
+              </p>
+              <p>
+                Was als Leidenschaftsprojekt begann, hat sich zu einem globalen Phänomen entwickelt, 
+                wobei wir unser Engagement für Qualität, Authentizität und die Underground-Kultur, 
+                die uns geprägt hat, beibehalten haben. Wir sind unseren Wurzeln treu geblieben und haben gleichzeitig die Grenzen von 
+                Design und Kreativität verschoben.
+              </p>
+              <p>
+                Heute repräsentiert BOWAVE mehr als nur Kleidung – es ist ein Lifestyle, ein Statement 
+                und eine Gemeinschaft von Menschen, die Originalität und Selbstausdruck schätzen.
               </p>
             </div>
-            
-            <div class="border border-gray-700 p-8">
-              <h3 class="text-xl font-semibold mb-4 text-red-500">Qualität</h3>
-              <p class="text-gray-300">
-                Jedes Produkt wird mit akribischer Liebe zum Detail unter Verwendung hochwertiger 
-                Materialien und bewährter Herstellungstechniken gefertigt.
+          </section>
+          
+          <!-- Values -->
+          <section>
+            <h2 class="text-3xl font-bold mb-8">Unsere Werte</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="border border-gray-700 p-8">
+                <h3 class="text-xl font-semibold mb-4 text-red-500">Authentizität</h3>
+                <p class="text-gray-300">
+                  Wir bleiben unseren Ursprüngen und der Kultur, die uns geschaffen hat, treu und machen niemals 
+                  Kompromisse bei unseren Grundwerten für kommerziellen Erfolg.
+                </p>
+              </div>
+              
+              <div class="border border-gray-700 p-8">
+                <h3 class="text-xl font-semibold mb-4 text-red-500">Qualität</h3>
+                <p class="text-gray-300">
+                  Jedes Produkt wird mit akribischer Liebe zum Detail unter Verwendung hochwertiger 
+                  Materialien und bewährter Herstellungstechniken gefertigt.
+                </p>
+              </div>
+              
+              <div class="border border-gray-700 p-8">
+                <h3 class="text-xl font-semibold mb-4 text-red-500">Innovation</h3>
+                <p class="text-gray-300">
+                  Wir verschieben kontinuierlich kreative Grenzen und arbeiten mit Künstlern, Designern 
+                  und Marken zusammen, um einzigartige und bahnbrechende Stücke zu schaffen.
+                </p>
+              </div>
+              
+              <div class="border border-gray-700 p-8">
+                <h3 class="text-xl font-semibold mb-4 text-red-500">Gemeinschaft</h3>
+                <p class="text-gray-300">
+                  Unsere Gemeinschaft steht im Mittelpunkt von allem, was wir tun. Wir kreieren Produkte für und 
+                  mit Menschen, die unsere Leidenschaft für Street Culture teilen.
+                </p>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Mission -->
+          <section>
+            <h2 class="text-3xl font-bold mb-8">Unsere Mission</h2>
+            <div class="bg-gray-900 border border-gray-700 p-12 text-center">
+              <p class="text-xl text-gray-300 italic">
+                "Authentische, hochwertige Produkte zu schaffen, die individuellen Ausdruck ermöglichen 
+                und den Geist der Street Culture weltweit feiern."
               </p>
             </div>
-            
-            <div class="border border-gray-700 p-8">
-              <h3 class="text-xl font-semibold mb-4 text-red-500">Innovation</h3>
-              <p class="text-gray-300">
-                Wir verschieben kontinuierlich kreative Grenzen und arbeiten mit Künstlern, Designern 
-                und Marken zusammen, um einzigartige und bahnbrechende Stücke zu schaffen.
+          </section>
+          
+          <!-- Global Presence -->
+          <section>
+            <h2 class="text-3xl font-bold mb-8">Globale Präsenz</h2>
+            <div class="text-gray-300 space-y-6 text-lg">
+              <p>
+                Von unserem Flagship-Store in New York bis zu Standorten auf der ganzen Welt hat BOWAVE 
+                eine weltweite Präsenz aufgebaut und dabei das intime Gefühl eines lokalen 
+                Skateboard-Shops beibehalten.
               </p>
-            </div>
-            
-            <div class="border border-gray-700 p-8">
-              <h3 class="text-xl font-semibold mb-4 text-red-500">Gemeinschaft</h3>
-              <p class="text-gray-300">
-                Unsere Gemeinschaft steht im Mittelpunkt von allem, was wir tun. Wir kreieren Produkte für und 
-                mit Menschen, die unsere Leidenschaft für Street Culture teilen.
-              </p>
-            </div>
-          </div>
-        </section>
-        
-        <!-- Mission -->
-        <section>
-          <h2 class="text-3xl font-bold mb-8">Unsere Mission</h2>
-          <div class="bg-gray-900 border border-gray-700 p-12 text-center">
-            <p class="text-xl text-gray-300 italic">
-              "Authentische, hochwertige Produkte zu schaffen, die individuellen Ausdruck ermöglichen 
-              und den Geist der Street Culture weltweit feiern."
-            </p>
-          </div>
-        </section>
-        
-        <!-- Global Presence -->
-        <section>
-          <h2 class="text-3xl font-bold mb-8">Globale Präsenz</h2>
-          <div class="text-gray-300 space-y-6 text-lg">
-            <p>
-              Von unserem Flagship-Store in New York bis zu Standorten auf der ganzen Welt hat BOWAVE 
-              eine weltweite Präsenz aufgebaut und dabei das intime Gefühl eines lokalen 
-              Skateboard-Shops beibehalten.
-            </p>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
-              <div class="text-center">
-                <div class="text-3xl font-bold text-red-500 mb-2">30+</div>
-                <div class="text-gray-400">Globale Stores</div>
-              </div>
-              <div class="text-center">
-                <div class="text-3xl font-bold text-red-500 mb-2">50+</div>
-                <div class="text-gray-400">Länder</div>
-              </div>
-              <div class="text-center">
-                <div class="text-3xl font-bold text-red-500 mb-2">30</div>
-                <div class="text-gray-400">Jahre Heritage</div>
-              </div>
-              <div class="text-center">
-                <div class="text-3xl font-bold text-red-500 mb-2">∞</div>
-                <div class="text-gray-400">Kultureller Einfluss</div>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        <!-- Contact Info -->
-        <section class="border-t border-gray-700 pt-12">
-          <h2 class="text-3xl font-bold mb-8">Kontaktieren Sie uns</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div>
-              <h3 class="text-xl font-semibold mb-4">Hauptsitz</h3>
-              <div class="text-gray-300 space-y-2">
-                <p>BOWAVE New York</p>
-                <p>274 Lafayette Street</p>
-                <p>New York, NY 10012</p>
-                <p>Vereinigte Staaten</p>
-              </div>
-            </div>
-            
-            <div>
-              <h3 class="text-xl font-semibold mb-4">Folgen Sie uns</h3>
-              <div class="text-gray-300 space-y-4">
-                <p>Bleiben Sie auf allen Plattformen mit BOWAVE verbunden für die neuesten Updates, 
-                Drops und exklusive Inhalte.</p>
-                <div class="flex space-x-6 mt-6">
-                  <a href="#" class="text-red-500 hover:text-red-400 transition-colors">Instagram</a>
-                  <a href="#" class="text-red-500 hover:text-red-400 transition-colors">Twitter</a>
-                  <a href="#" class="text-red-500 hover:text-red-400 transition-colors">Facebook</a>
+              
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-red-500 mb-2">30+</div>
+                  <div class="text-gray-400">Globale Stores</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-red-500 mb-2">50+</div>
+                  <div class="text-gray-400">Länder</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-red-500 mb-2">30</div>
+                  <div class="text-gray-400">Jahre Heritage</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-red-500 mb-2">∞</div>
+                  <div class="text-gray-400">Kultureller Einfluss</div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+          
+          <!-- Contact Info -->
+          <section class="border-t border-gray-700 pt-12">
+            <h2 class="text-3xl font-bold mb-8">Kontaktieren Sie uns</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div>
+                <h3 class="text-xl font-semibold mb-4">Hauptsitz</h3>
+                <div class="text-gray-300 space-y-2">
+                  <p>BOWAVE New York</p>
+                  <p>274 Lafayette Street</p>
+                  <p>New York, NY 10012</p>
+                  <p>Vereinigte Staaten</p>
+                </div>
+              </div>
+              
+              <div>
+                <h3 class="text-xl font-semibold mb-4">Folgen Sie uns</h3>
+                <div class="text-gray-300 space-y-4">
+                  <p>Bleiben Sie auf allen Plattformen mit BOWAVE verbunden für die neuesten Updates, 
+                  Drops und exklusive Inhalte.</p>
+                  <div class="flex space-x-6 mt-6">
+                    <a href="#" class="text-red-500 hover:text-red-400 transition-colors">Instagram</a>
+                    <a href="#" class="text-red-500 hover:text-red-400 transition-colors">Twitter</a>
+                    <a href="#" class="text-red-500 hover:text-red-400 transition-colors">Facebook</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   </div>
