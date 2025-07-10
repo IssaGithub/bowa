@@ -33,6 +33,12 @@ You need to add the following secrets to your GitHub repository:
    Default: 22 (if not specified)
    ```
 
+5. **`SITE_URL`** (Optional) - Your website's full URL for proper asset paths
+   ```
+   Example: https://yourdomain.com
+   Default: https://yourdomain.com (if not specified)
+   ```
+
 ## 🔑 SSH Key Setup
 
 ### 1. Generate SSH Key Pair (if you don't have one)
@@ -143,14 +149,37 @@ sudo a2enmod rewrite expires headers
 sudo systemctl reload apache2
 ```
 
+## ⚙️ Build Configuration
+
+Your project now has **two build configurations**:
+
+### 1. GitHub Pages Build (`astro.config.mjs`)
+- Uses `base: '/bowa'` for GitHub Pages subdirectory
+- Deployed automatically via the existing `pages.yml` workflow
+- Accessible at: `https://yourusername.github.io/bowa`
+
+### 2. VPS Build (`astro.config.vps.mjs`)  
+- No base path - serves from root domain
+- Used by the VPS deployment workflow
+- Accessible at: `https://yourdomain.com`
+
+### Local Testing Commands:
+```bash
+# Test GitHub Pages build locally
+npm run build:github && npm run preview
+
+# Test VPS build locally  
+npm run build:vps && npm run preview:vps
+```
+
 ## 🚀 Deployment Process
 
-The workflow triggers on:
+The VPS workflow triggers on:
 - Push to `main` or `master` branch
 - Manual trigger via GitHub Actions interface
 
 ### Deployment Steps:
-1. **Build** - Compiles your Astro site
+1. **Build** - Compiles your Astro site using VPS config
 2. **Backup** - Creates timestamped backup of current deployment
 3. **Deploy** - Copies new files to VPS
 4. **Configure** - Sets proper permissions and reloads web server

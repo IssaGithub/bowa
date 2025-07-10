@@ -24,12 +24,13 @@ jobs:
           echo "Installing dependencies..."
           npm ci --legacy-peer-deps
       
-      - name: Build Astro site
+      - name: Build Astro site for VPS
         run: |
-          echo "Building Astro site for production..."
-          npm run build
+          echo "Building Astro site for VPS deployment..."
+          npx astro build --config astro.config.vps.mjs
         env:
           NODE_ENV: production
+          SITE_URL: ${{ secrets.SITE_URL || 'https://yourdomain.com' }}
       
       - name: Verify build output
         run: |

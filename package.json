@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:vps": "astro build --config astro.config.vps.mjs",
+    "build:github": "astro build",
     "preview": "astro preview",
+    "preview:vps": "astro build --config astro.config.vps.mjs && astro preview",
     "astro": "astro"
   },
   "dependencies": {
