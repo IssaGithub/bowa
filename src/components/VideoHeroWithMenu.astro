@@ -4,16 +4,20 @@ import Footer from './Footer.astro';
 
 const videos = [
   {
-    src: `${import.meta.env.BASE_URL}/videos/bowa-v1.mp4`,
+    src: '/videos/bowa-v1.mp4',
     poster: '', // Optional poster image
+    title: '',
+    subtitle: '',
     cta: '',
-    // overlay: 'bg-red-900 bg-opacity-20'
+    overlay: 'bg-red-900 bg-opacity-20'
   },
   {
-    src: `${import.meta.env.BASE_URL}/videos/bowa-v2.mp4`,
+    src: '/videos/bowa-v2.mp4',
     poster: '', // Optional poster image
+    title: '',
+    subtitle: '',
     cta: '',
-    // overlay: 'bg-gray-900 bg-opacity-30'
+    overlay: 'bg-gray-900 bg-opacity-30'
   }
 ];
 ---
@@ -138,7 +142,7 @@ const videos = [
   function showSlide(index: number) {
     // Pause all videos first
     videos.forEach((video) => {
-      video.pause();
+      (video as HTMLVideoElement).pause();
     });
     
     // Hide all slides

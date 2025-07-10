@@ -217,6 +217,11 @@ env:
 2. **SSH Key Issues**: Check key format and file permissions
 3. **Build Failures**: Verify Node.js version and dependencies
 4. **Web Server Not Starting**: Check configuration syntax
+5. **Videos Not Loading**: 
+   - Check if video files exist in `/var/www/bowa/videos/`
+   - Verify file permissions (should be 644)
+   - Ensure web server serves .mp4 files (usually enabled by default)
+   - Check browser console for 404 errors on video requests
 
 ### Debug Commands:
 ```bash
@@ -228,10 +233,19 @@ sudo systemctl status apache2
 # Check deployment directory
 ls -la /var/www/bowa
 
+# Check for video files specifically
+find /var/www/bowa -name "*.mp4" -ls
+
+# Test video file accessibility
+curl -I http://yourdomain.com/videos/bowa-v1.mp4
+
 # Check web server logs
 sudo tail -f /var/log/nginx/error.log
 # or
 sudo tail -f /var/log/apache2/error.log
+
+# Check file permissions for videos
+ls -la /var/www/bowa/videos/
 ```
 
 ## 📊 Monitoring

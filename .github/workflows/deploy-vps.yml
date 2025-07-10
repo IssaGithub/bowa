@@ -36,6 +36,8 @@ jobs:
         run: |
           echo "Build completed. Checking dist folder:"
           ls -la dist/
+          echo "Checking for video files:"
+          find dist/ -name "*.mp4" -exec ls -lh {} \; || echo "No video files found"
           echo "Total size:"
           du -sh dist/
       
@@ -120,6 +122,10 @@ jobs:
             # Check disk usage
             echo "Disk usage of deployment directory:"
             du -sh /var/www/bowa
+            
+            # Check video files specifically
+            echo "Checking for video files:"
+            find /var/www/bowa -name "*.mp4" -exec ls -lh {} \; || echo "No video files found in deployment"
             
             # List recent backups (keep last 5)
             echo "Available backups:"

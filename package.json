@@ -9,6 +9,7 @@
     "build:github": "astro build",
     "preview": "astro preview",
     "preview:vps": "astro build --config astro.config.vps.mjs && astro preview",
+    "test:vps": "node test-vps-build.js",
     "astro": "astro"
   },
   "dependencies": {
