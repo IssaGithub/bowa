@@ -1,0 +1,128 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies..."
+          npm ci --legacy-peer-deps
+      
+      - name: Build Astro site
+        run: |
+          echo "Building Astro site for production..."
+          npm run build
+        env:
+          NODE_ENV: production
+      
+      - name: Verify build output
+        run: |
+          echo "Build completed. Checking dist folder:"
+          ls -la dist/
+          echo "Total size:"
+          du -sh dist/
+      
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            # Create backup of current deployment
+            if [ -d "/var/www/bowa" ]; then
+              echo "Creating backup of current deployment..."
+              sudo cp -r /var/www/bowa /var/www/bowa-backup-$(date +%Y%m%d-%H%M%S)
+            fi
+            
+            # Create web directory if it doesn't exist
+            sudo mkdir -p /var/www/bowa
+            
+            # Set proper ownership
+            sudo chown -R $USER:$USER /var/www/bowa
+            
+            # Clean previous deployment
+            rm -rf /var/www/bowa/*
+            
+            echo "Deployment directory prepared"
+      
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          source: "dist/*"
+          target: "/var/www/bowa/"
+          strip_components: 1
+      
+      - name: Configure web server and finalize deployment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            # Set proper permissions
+            sudo chown -R www-data:www-data /var/www/bowa
+            sudo find /var/www/bowa -type d -exec chmod 755 {} \;
+            sudo find /var/www/bowa -type f -exec chmod 644 {} \;
+            
+            # Restart web server to ensure all changes are applied
+            if systemctl is-active --quiet nginx; then
+              echo "Restarting Nginx..."
+              sudo systemctl reload nginx
+            elif systemctl is-active --quiet apache2; then
+              echo "Restarting Apache..."
+              sudo systemctl reload apache2
+            fi
+            
+            echo "Deployment completed successfully!"
+            echo "Website files deployed to /var/www/bowa"
+            ls -la /var/www/bowa
+      
+      - name: Health check
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            # Check if index.html exists
+            if [ -f "/var/www/bowa/index.html" ]; then
+              echo "✅ index.html found - deployment successful"
+            else
+              echo "❌ index.html not found - deployment may have failed"
+              exit 1
+            fi
+            
+            # Check disk usage
+            echo "Disk usage of deployment directory:"
+            du -sh /var/www/bowa
+            
+            # List recent backups (keep last 5)
+            echo "Available backups:"
+            ls -lat /var/www/bowa-backup-* 2>/dev/null | head -5 || echo "No backups found"
+            
+            # Clean old backups (keep last 5)
+            ls -t /var/www/bowa-backup-* 2>/dev/null | tail -n +6 | xargs -r sudo rm -rf 
