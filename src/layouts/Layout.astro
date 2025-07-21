@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import FooterNavigation from '../components/FooterNavigation.astro';
 import '../styles/global.css';
 
 export interface Props {
@@ -19,15 +20,16 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="bg-black text-white min-h-screen">
+  <body class="bg-black text-white min-h-screen flex flex-col">
     <!-- Header with navigation and login -->
     <Header />
     
-   
-    
     <!-- Hauptinhalt -->
-    <main>
+    <main class="flex-1">
       <slot />
     </main>
+    
+    <!-- Footer Navigation -->
+    <FooterNavigation />
   </body>
 </html> 

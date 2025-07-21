@@ -1,0 +1,171 @@
+---
+// Get current URL to determine active page
+const currentPath = Astro.url.pathname;
+const basePath = import.meta.env.BASE_URL || '/';
+
+// Normalize paths - remove trailing slashes and handle base path
+let normalizedPath = currentPath;
+if (basePath !== '/' && normalizedPath.startsWith(basePath)) {
+  normalizedPath = normalizedPath.slice(basePath.length);
+}
+if (normalizedPath === '') normalizedPath = '/';
+if (normalizedPath !== '/' && normalizedPath.endsWith('/')) {
+  normalizedPath = normalizedPath.slice(0, -1);
+}
+
+// Hide footer navigation on homepage (full-screen video hero)
+const isHomepage = normalizedPath === '/';
+
+// Navigation items
+const navItems = [
+  { label: 'home', href: basePath === '/' ? '/' : basePath, path: '/' },
+  { label: 'shop', href: basePath === '/' ? '/shop' : `${basePath}shop`, path: '/shop' },
+  { label: 'über uns', href: basePath === '/' ? '/about' : `${basePath}about`, path: '/about' },
+  { label: 'news', href: basePath === '/' ? '/news' : `${basePath}news`, path: '/news' },
+  { label: 'lookbook', href: basePath === '/' ? '/news/lookbook' : `${basePath}news/lookbook`, path: '/news/lookbook' },
+  { label: 'preview', href: basePath === '/' ? '/news/preview' : `${basePath}news/preview`, path: '/news/preview' },
+  { label: 'kontakt', href: '#', path: '/kontakt' }
+];
+
+// Check if current page matches nav item
+function isActive(itemPath: string): boolean {
+  if (itemPath === '/' && normalizedPath === '/') return true;
+  if (itemPath !== '/' && normalizedPath === itemPath) return true;
+  // For nested paths like /news/lookbook, also check if we're on a subpage
+  if (itemPath !== '/' && normalizedPath.startsWith(itemPath + '/')) return true;
+  return false;
+}
+---
+
+{!isHomepage && (
+  <footer id="stickyFooter" class="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-sm border-t border-gray-800 z-40 transform translate-y-0 transition-transform duration-300 ease-in-out">
+    <div class="container mx-auto px-4 py-4">
+      <!-- Footer Navigation -->
+      <nav class="flex flex-wrap justify-center gap-x-8 gap-y-2 mb-2">
+        {navItems.map(item => {
+          const active = isActive(item.path);
+          return (
+            <a 
+              href={item.href}
+              class={`text-sm transition-colors hover:text-gray-300 ${
+                active 
+                  ? 'font-bold text-white' 
+                  : 'text-gray-400'
+              }`}
+            >
+              {item.label}
+            </a>
+          );
+        })}
+      </nav>
+      
+      <!-- Copyright -->
+      <div class="text-center text-xs text-gray-500">
+        © 2024 BOWAVE. Alle Rechte vorbehalten.
+      </div>
+    </div>
+  </footer>
+)}
+
+<style>
+  /* Ensure footer navigation links have consistent styling */
+  nav a {
+    text-decoration: none !important;
+  }
+  
+  nav a:visited {
+    color: inherit;
+  }
+  
+  nav a:hover {
+    text-decoration: none !important;
+  }
+  
+  /* Ensure bold font weight is applied correctly */
+  nav a.font-bold {
+    font-weight: 700 !important;
+  }
+  
+  /* Footer auto-hide styles */
+  #stickyFooter {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  #stickyFooter.hidden {
+    transform: translateY(100%);
+  }
+  
+  #stickyFooter.visible {
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  // Auto-hide footer functionality
+  let hideTimeout: NodeJS.Timeout;
+  let isHovered = false;
+  let lastScrollY = window.scrollY;
+  
+  const footer = document.getElementById('stickyFooter');
+  
+  if (footer) {
+    // Show footer initially
+    footer.classList.add('visible');
+    
+    // Auto-hide after 3 seconds
+    function scheduleHide() {
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        if (!isHovered) {
+          footer.classList.add('hidden');
+          footer.classList.remove('visible');
+        }
+      }, 3000);
+    }
+    
+    // Show footer
+    function showFooter() {
+      footer.classList.remove('hidden');
+      footer.classList.add('visible');
+      scheduleHide();
+    }
+    
+    // Mouse hover events
+    footer.addEventListener('mouseenter', () => {
+      isHovered = true;
+      clearTimeout(hideTimeout);
+      showFooter();
+    });
+    
+    footer.addEventListener('mouseleave', () => {
+      isHovered = false;
+      scheduleHide();
+    });
+    
+    // Scroll events - show on scroll
+    let scrollTimeout: NodeJS.Timeout;
+    window.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      showFooter();
+      
+      // Reset last scroll position after scroll ends
+      scrollTimeout = setTimeout(() => {
+        lastScrollY = window.scrollY;
+      }, 150);
+    });
+    
+    // Show on mouse movement near bottom
+    window.addEventListener('mousemove', (e) => {
+      const windowHeight = window.innerHeight;
+      const mouseY = e.clientY;
+      
+      // Show footer when mouse is in bottom 100px of screen
+      if (mouseY > windowHeight - 100) {
+        showFooter();
+      }
+    });
+    
+    // Initialize auto-hide timer
+    scheduleHide();
+  }
+</script> 
